@@ -231,14 +231,6 @@ export const RetinaCanvas = forwardRef<RetinaCanvasHandle, RetinaCanvasProps>(
       const centerY = rect.height / 2;
       const baseScale = Math.min(rect.width, rect.height) / 600;
       const scale = baseScale * scaleRef.current;
-      console.log(
-        "[zoom:draw] baseScale:",
-        baseScale,
-        "scaleRef:",
-        scaleRef.current,
-        "final scale:",
-        scale,
-      );
 
       const params = paramsRef.current;
       const amount = amountRef.current;
@@ -298,14 +290,6 @@ export const RetinaCanvas = forwardRef<RetinaCanvasHandle, RetinaCanvasProps>(
     useEffect(() => {
       animateZoomRef.current = () => {
         const diff = targetScaleRef.current - scaleRef.current;
-        console.log(
-          "[zoom:animateZoom] tick — target:",
-          targetScaleRef.current,
-          "current:",
-          scaleRef.current,
-          "diff:",
-          diff,
-        );
         if (Math.abs(diff) > 0.001) {
           scaleRef.current += diff * 0.15;
           drawRef.current();
@@ -316,36 +300,16 @@ export const RetinaCanvas = forwardRef<RetinaCanvasHandle, RetinaCanvasProps>(
           scaleRef.current = targetScaleRef.current;
           drawRef.current();
           zoomAnimationRef.current = null;
-          console.log(
-            "[zoom:animateZoom] animation complete, scale settled at:",
-            scaleRef.current,
-          );
         }
       };
     }, []);
 
     const startZoomAnimation = useCallback(() => {
-      console.log(
-        "[zoom:startZoomAnimation] called, existing rAF id:",
-        zoomAnimationRef.current,
-        "target:",
-        targetScaleRef.current,
-        "current:",
-        scaleRef.current,
-      );
       if (zoomAnimationRef.current) {
         cancelAnimationFrame(zoomAnimationRef.current);
-        console.log(
-          "[zoom:startZoomAnimation] cancelled existing rAF:",
-          zoomAnimationRef.current,
-        );
       }
       zoomAnimationRef.current = requestAnimationFrame(() =>
         animateZoomRef.current(),
-      );
-      console.log(
-        "[zoom:startZoomAnimation] scheduled rAF:",
-        zoomAnimationRef.current,
       );
     }, []);
 
@@ -354,15 +318,8 @@ export const RetinaCanvas = forwardRef<RetinaCanvasHandle, RetinaCanvasProps>(
       ref,
       () => ({
         setZoom: (zoom: number) => {
-          console.log(
-            "[zoom:setZoom imperative] called with:",
-            zoom,
-            "current scale:",
-            scaleRef.current,
-          );
           const clamped = Math.max(0.2, Math.min(5, zoom));
           targetScaleRef.current = clamped;
-          console.log("[zoom:setZoom imperative] targetScale set to:", clamped);
           startZoomAnimation();
         },
         getZoom: () => scaleRef.current,
@@ -425,7 +382,7 @@ export const RetinaCanvas = forwardRef<RetinaCanvasHandle, RetinaCanvasProps>(
           const dx = touch.clientX - lastTouchPosRef.current.x;
 
           if (touchModeRef.current === "generate") {
-            const delta = dx * 0.002 * directionRef.current;
+            const delta = Math.abs(dx) * 0.002 * directionRef.current;
             amountRef.current = amountRef.current + delta;
 
             if (amountRef.current >= 1) {
@@ -502,16 +459,6 @@ export const RetinaCanvas = forwardRef<RetinaCanvasHandle, RetinaCanvasProps>(
       };
 
       const handleKeyDown = (e: KeyboardEvent) => {
-        console.log(
-          "[zoom:keydown] key:",
-          e.key,
-          "meta:",
-          e.metaKey,
-          "ctrl:",
-          e.ctrlKey,
-          "alt:",
-          e.altKey,
-        );
         if (e.metaKey || e.ctrlKey || e.altKey) return;
 
         const zoomSpeed = 0.2;
@@ -524,12 +471,6 @@ export const RetinaCanvas = forwardRef<RetinaCanvasHandle, RetinaCanvasProps>(
             maxScale,
             targetScaleRef.current + zoomSpeed,
           );
-          console.log(
-            "[zoom:keydown +] targetScale before:",
-            targetScaleRef.current,
-            "newZoom:",
-            newZoom,
-          );
           targetScaleRef.current = newZoom;
           onZoomChange?.(newZoom);
           startZoomAnimation();
@@ -538,12 +479,6 @@ export const RetinaCanvas = forwardRef<RetinaCanvasHandle, RetinaCanvasProps>(
           const newZoom = Math.max(
             minScale,
             targetScaleRef.current - zoomSpeed,
-          );
-          console.log(
-            "[zoom:keydown -] targetScale before:",
-            targetScaleRef.current,
-            "newZoom:",
-            newZoom,
           );
           targetScaleRef.current = newZoom;
           onZoomChange?.(newZoom);

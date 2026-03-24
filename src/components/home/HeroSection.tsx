@@ -98,18 +98,11 @@ export function HeroSection() {
   };
 
   const handleZoomChange = useCallback((newZoom: number) => {
-    console.log(
-      "[zoom:HeroSection:handleZoomChange] newZoom:",
-      newZoom,
-      "canvasRef.current:",
-      !!canvasRef.current,
-    );
     setZoom(newZoom);
     canvasRef.current?.setZoom(newZoom);
   }, []);
 
   const handleCanvasZoomChange = useCallback((newZoom: number) => {
-    console.log("[zoom:HeroSection:handleCanvasZoomChange] newZoom:", newZoom);
     setZoom(newZoom);
   }, []);
 
@@ -147,7 +140,7 @@ export function HeroSection() {
         </p>
 
         {/* Mobile: tappable controls */}
-        <div className="md:hidden mt-2 text-md opacity-60 font-light space-y-1 pointer-events-auto">
+        <div className="md:hidden mt-2 opacity-60 font-light space-y-1 pointer-events-auto">
           <button
             onClick={toggleTouchMode}
             className="block text-left hover:opacity-85 active:opacity-100 transition-opacity"

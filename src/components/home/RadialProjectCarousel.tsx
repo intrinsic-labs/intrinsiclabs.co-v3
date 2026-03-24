@@ -1,7 +1,14 @@
 "use client";
 
 import Link from "next/link";
-import { useEffect, useMemo, useRef, useState } from "react";
+import {
+  useCallback,
+  useEffect,
+  useLayoutEffect,
+  useMemo,
+  useRef,
+  useState,
+} from "react";
 import { FiArrowLeft, FiArrowRight } from "react-icons/fi";
 import { getCaseStudyHref } from "@/content/case-studies/registry";
 import type { HomeProject } from "@/content/home";
@@ -87,6 +94,52 @@ function NavButtons({
   );
 }
 
+/** Renders an <h3> that shrinks its font-size until the text fits on one line. */
+function FitHeading({
+  children,
+  className,
+}: {
+  children: React.ReactNode;
+  className?: string;
+}) {
+  const ref = useRef<HTMLHeadingElement>(null);
+
+  const fit = useCallback(() => {
+    const el = ref.current;
+    if (!el) return;
+    // Reset to stylesheet size so we always start from the max
+    el.style.fontSize = "";
+    let size = parseFloat(getComputedStyle(el).fontSize);
+    const min = 10;
+    // Shrink until the text no longer overflows horizontally
+    while (el.scrollWidth > el.clientWidth + 1 && size > min) {
+      size -= 0.5;
+      el.style.fontSize = `${size}px`;
+    }
+  }, []);
+
+  // Fit after every render (children / layout may change)
+  useLayoutEffect(() => {
+    fit();
+  }, [children, fit]);
+
+  // Also re-fit on window resize
+  useEffect(() => {
+    window.addEventListener("resize", fit);
+    return () => window.removeEventListener("resize", fit);
+  }, [fit]);
+
+  return (
+    <h3
+      ref={ref}
+      className={className}
+      style={{ whiteSpace: "nowrap", overflow: "hidden" }}
+    >
+      {children}
+    </h3>
+  );
+}
+
 function ProjectCard({
   project,
   statusColor,
@@ -96,7 +149,7 @@ function ProjectCard({
 }) {
   return (
     <>
-      <div className="flex items-center justify-between gap-4 border-b border-border-subtle pb-3">
+      <div className="hidden md:flex items-center justify-between gap-4 border-b border-border-subtle pb-3">
         <span className="mono-label type-xs text-cream-muted">
           PROJECT_ID: {project.id}
         </span>
@@ -168,7 +221,6 @@ export function RadialProjectCarousel({
       requestAnimationFrame(() => {
         wrapperRef.current?.scrollIntoView({
           behavior: "smooth",
-          block: "center",
         });
       });
     }
@@ -234,22 +286,23 @@ export function RadialProjectCarousel({
        ═══════════════════════════════════════════════════════════════ */}
       <div className="container-shell block md:hidden">
         {/* Wireframe scene — explicit min-h + key forces remount per project */}
+        <p className="section-label text-xs italic opacity-65">~/Projects</p>
         <div
           key={activeProject.id}
           className="relative w-full overflow-hidden rounded-sm mt-3"
           style={{ aspectRatio: "4 / 3", minHeight: "16rem" }}
         >
           <ViewportScene scene={activeProject.viewportScene} />
+        </div>
 
-          {/* Name + subtitle overlay, centered */}
-          <div className="flex flex-col items-center justify-center absolute inset-0 text-center px-4">
-            <h3 className="font-mono type-3xl uppercase type-tracking-wider text-cream type-leading-snug text-center">
-              {activeProject.name}
-            </h3>
-            <p className="mt-1 type-sm text-cream/75 text-center">
-              {activeProject.subtitle}
-            </p>
-          </div>
+        {/* Name + subtitle, stacked below scene */}
+        <div className="flex flex-col items-center text-center px-4 mt-4">
+          <FitHeading className="font-mono type-3xl uppercase type-tracking-wider text-cream type-leading-snug text-center w-full">
+            {activeProject.name}
+          </FitHeading>
+          <p className="mt-1 type-sm text-blue-400 text-center">
+            {activeProject.subtitle}
+          </p>
         </div>
 
         {/* Project details card */}
@@ -280,7 +333,7 @@ export function RadialProjectCarousel({
         {/* LEFT: radial labels */}
         <div className="relative grid h-full grid-rows-[auto_minmax(0,1fr)] py-16">
           <header className="mb-8 max-w-2xl">
-            <p className="section-label italic">~/Projects</p>
+            <p className="section-label text-sm italic">~/Projects</p>
           </header>
 
           <div className="relative h-full overflow-hidden">

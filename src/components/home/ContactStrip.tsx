@@ -3,12 +3,12 @@ import Link from "next/link";
 export function ContactStrip() {
   return (
     <section id="contact" className="pb-28 pt-24 md:pb-36">
-      <div className="container-shell">
+      <div className="container-shell border-t border-border-subtle">
         <div className="section-divider mb-9" />
         <p className="section-label">Get In Touch</p>
         <Link
           href="mailto:helloworld@intrinsiclabs.co"
-          className="section-title mt-5 inline-block normal-case text-blue-400 transition-colors hover:text-copper"
+          className="section-title mt-5 inline-block normal-case text-blue-400 transition-colors hover:text-blue-200 underline"
         >
           helloworld@intrinsiclabs.co
         </Link>

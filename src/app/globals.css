@@ -3,16 +3,6 @@
 @theme {
   --font-sans: var(--font-mono-active);
   --font-mono: var(--font-mono-active);
-  --font-google-sans-code-stack:
-    var(--font-google-sans-code), "Google Sans Code", ui-monospace,
-    SFMono-Regular, monospace;
-  --font-dm-mono-stack:
-    var(--font-dm-mono), "DM Mono", ui-monospace, SFMono-Regular, monospace;
-  --font-ibm-plex-mono-stack:
-    var(--font-ibm-plex-mono), "IBM Plex Mono", ui-monospace, SFMono-Regular,
-    monospace;
-  --font-source-serif-4-stack:
-    var(--font-source-serif-4), "Source Serif 4", "Times New Roman", serif;
   --font-instrument-serif-stack:
     var(--font-instrument-serif), "Instrument Serif", "Times New Roman", serif;
   --font-cardo-stack: var(--font-cardo), "Cardo", "Times New Roman", serif;
@@ -20,7 +10,7 @@
   --font-serif: var(--font-serif-active);
   --font-serif-display: var(--font-serif-display-active);
 
-  --color-dark-grey: #08080f;
+  --color-dark-grey: #000000;
   --color-dark-charcoal: #12121e;
   --color-dark-steel: #1a1a2a;
 
@@ -62,17 +52,11 @@
   --grain-speed: 2s;
   --grain-scale: 2;
 
-  /* Font switchboard: toggle active families by changing one line */
-  /*--font-mono-active: var(--font-google-sans-code-stack);*/
-  /*--font-mono-active: var(--font-dm-mono-stack); */
-  /*--font-mono-active: var(--font-ibm-plex-mono-stack);*/
   --font-mono-active: var(--font-jetbrains-mono);
 
-  /*--font-serif-active: var(--font-source-serif-4-stack);*/
   --font-serif-active: var(--font-instrument-serif-stack);
 
   --font-serif-display-active: var(--font-instrument-serif-stack);
-  /*--font-serif-display-active: var(--font-source-serif-4-stack); */
 
   /* Cardo optical-size compensation (renders smaller than mono at same px) */
   --cardo-scale: 1.12;
@@ -128,9 +112,11 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
-a {
-  color: inherit;
-  text-decoration: none;
+@layer base {
+  a {
+    color: inherit;
+    text-decoration: none;
+  }
 }
 
 .debug {
@@ -173,7 +159,6 @@ a {
 
 .mono-label {
   font-family: var(--font-mono);
-  /*font-weight: 300;*/
   letter-spacing: var(--tracking-wider);
   line-height: var(--leading-normal);
   text-transform: uppercase;
@@ -193,10 +178,7 @@ a {
 
 .section-label {
   font-family: var(--font-mono);
-  /*text-transform: uppercase;*/
-  letter-spacing: var(--tracking-widest);
   line-height: var(--leading-normal);
-  font-size: var(--text-sm);
   color: var(--color-cream-muted);
 }
 
@@ -206,8 +188,6 @@ a {
   line-height: var(--leading-snug);
   letter-spacing: var(--tracking-tight);
   font-weight: 500;
-  /*text-transform: uppercase;*/
-  /*color: var(--color-cream);*/
 }
 
 .hero-title {
@@ -216,7 +196,6 @@ a {
   line-height: var(--leading-tight);
   letter-spacing: var(--tracking-tighter);
   font-weight: 500;
-  /*text-transform: uppercase;*/
 }
 
 .hero-heading {
@@ -225,7 +204,6 @@ a {
   line-height: var(--leading-snug);
   font-weight: 300;
   letter-spacing: var(--tracking-tight);
-  /*text-transform: uppercase;*/
 }
 
 .hero-tagline {
@@ -350,68 +328,6 @@ a {
   letter-spacing: var(--tracking-widest);
 }
 
-.scroll-indicator {
-  width: 1px;
-  height: 56px;
-  background: linear-gradient(
-    180deg,
-    color-mix(in srgb, var(--color-cream) 0%, transparent),
-    color-mix(in srgb, var(--color-cream) 75%, transparent)
-  );
-  animation: indicatorPulse 2.5s ease-in-out infinite;
-}
-
-/*.glass-panel {
-  border: 1px solid color-mix(in srgb, var(--color-cream) 26%, transparent);
-  -webkit-backdrop-filter: blur(24px) saturate(82%) contrast(90%)
-    brightness(105%);
-  backdrop-filter: blur(24px) saturate(82%) contrast(90%) brightness(90%);
-}
-
-.glass-panel::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  z-index: 0;
-  pointer-events: none;
-  border-radius: inherit;
-  opacity: 0.55;
-}
-
-.glass-panel::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  z-index: 0;
-  pointer-events: none;
-  border-radius: inherit;
-}*/
-
-/*@supports not (
-  (backdrop-filter: blur(2px)) or (-webkit-backdrop-filter: blur(2px))
-) {
-  .glass-panel {
-    background: color-mix(
-      in srgb,
-      var(--color-dark-charcoal) 92%,
-      var(--color-dark-grey)
-    );
-  }
-}*/
-
-.section-divider {
-  width: 100%;
-  height: 1px;
-  background: linear-gradient(
-    90deg,
-    color-mix(in srgb, var(--color-cream) 0%, transparent),
-    color-mix(in srgb, var(--color-cream) 40%, transparent) 35%,
-    color-mix(in srgb, var(--color-copper) 65%, transparent) 50%,
-    color-mix(in srgb, var(--color-cream) 40%, transparent) 65%,
-    color-mix(in srgb, var(--color-cream) 0%, transparent)
-  );
-}
-
 .mono-chip {
   border: 1px solid var(--color-border-visible);
   /*border-radius: 999px;*/
@@ -439,50 +355,6 @@ a {
 .mono-chip-muted {
   color: var(--color-ink-dim);
   border-color: var(--color-border-subtle);
-}
-
-.hero-fallback {
-  background:
-    radial-gradient(
-      40rem 32rem at 20% 10%,
-      color-mix(in srgb, var(--color-copper) 20%, transparent),
-      transparent 70%
-    ),
-    linear-gradient(
-      180deg,
-      color-mix(in srgb, var(--color-dark-charcoal) 88%, var(--color-dark-grey))
-        0%,
-      var(--color-dark-grey) 62%,
-      color-mix(in srgb, var(--color-dark-grey) 86%, black) 100%
-    );
-}
-
-.hero-fallback::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background-image:
-    linear-gradient(
-      color-mix(in srgb, var(--color-cream) 14%, transparent) 1px,
-      transparent 1px
-    ),
-    linear-gradient(
-      90deg,
-      color-mix(in srgb, var(--color-cream) 14%, transparent) 1px,
-      transparent 1px
-    );
-  background-size: 56px 56px;
-  opacity: 0.15;
-}
-
-@keyframes indicatorPulse {
-  0%,
-  100% {
-    opacity: 0.25;
-  }
-  50% {
-    opacity: 0.95;
-  }
 }
 
 @keyframes grainShift {

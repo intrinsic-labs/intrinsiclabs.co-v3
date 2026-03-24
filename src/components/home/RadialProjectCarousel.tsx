@@ -1,17 +1,11 @@
 "use client";
 
 import Link from "next/link";
-import {
-  useCallback,
-  useEffect,
-  useLayoutEffect,
-  useMemo,
-  useRef,
-  useState,
-} from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { FiArrowLeft, FiArrowRight } from "react-icons/fi";
 import { getCaseStudyHref } from "@/content/case-studies/registry";
 import type { HomeProject } from "@/content/home";
+import { FitText } from "@/components/FitText";
 import { WireframeTree } from "./WireframeTree";
 import { WireframeDogHead } from "./WireframeDogHead";
 import { WireframeChurch } from "./WireframeChurch";
@@ -91,52 +85,6 @@ function NavButtons({
         <FiArrowRight className="h-4 w-4" />
       </button>
     </div>
-  );
-}
-
-/** Renders an <h3> that shrinks its font-size until the text fits on one line. */
-function FitHeading({
-  children,
-  className,
-}: {
-  children: React.ReactNode;
-  className?: string;
-}) {
-  const ref = useRef<HTMLHeadingElement>(null);
-
-  const fit = useCallback(() => {
-    const el = ref.current;
-    if (!el) return;
-    // Reset to stylesheet size so we always start from the max
-    el.style.fontSize = "";
-    let size = parseFloat(getComputedStyle(el).fontSize);
-    const min = 10;
-    // Shrink until the text no longer overflows horizontally
-    while (el.scrollWidth > el.clientWidth + 1 && size > min) {
-      size -= 0.5;
-      el.style.fontSize = `${size}px`;
-    }
-  }, []);
-
-  // Fit after every render (children / layout may change)
-  useLayoutEffect(() => {
-    fit();
-  }, [children, fit]);
-
-  // Also re-fit on window resize
-  useEffect(() => {
-    window.addEventListener("resize", fit);
-    return () => window.removeEventListener("resize", fit);
-  }, [fit]);
-
-  return (
-    <h3
-      ref={ref}
-      className={className}
-      style={{ whiteSpace: "nowrap", overflow: "hidden" }}
-    >
-      {children}
-    </h3>
   );
 }
 
@@ -297,9 +245,12 @@ export function RadialProjectCarousel({
 
         {/* Name + subtitle, stacked below scene */}
         <div className="flex flex-col items-center text-center px-4 mt-4">
-          <FitHeading className="font-mono type-3xl uppercase type-tracking-wider text-cream type-leading-snug text-center w-full">
+          <FitText
+            as="h3"
+            className="font-mono type-3xl uppercase type-tracking-wider text-cream type-leading-snug text-center w-full"
+          >
             {activeProject.name}
-          </FitHeading>
+          </FitText>
           <p className="mt-1 type-sm text-blue-400 text-center">
             {activeProject.subtitle}
           </p>

@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { FitText } from "@/components/FitText";
 
 export function ContactStrip() {
   return (
@@ -10,9 +11,11 @@ export function ContactStrip() {
         </p>
         <Link
           href="mailto:helloworld@intrinsiclabs.co"
-          className="section-title mt-5 inline-block normal-case text-blue-400 transition-colors hover:text-blue-200 underline"
+          className="mt-5 block text-blue-400 transition-colors hover:text-blue-300 underline"
         >
-          helloworld@intrinsiclabs.co
+          <FitText as="span" className="font-serif text-4xl normal-case pr-2">
+            helloworld@intrinsiclabs.co
+          </FitText>
         </Link>
 
         <div className="mt-8 flex flex-wrap gap-4">

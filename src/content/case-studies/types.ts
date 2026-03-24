@@ -1,10 +1,7 @@
 import type { MDXProps } from "mdx/types";
 import type { ReactElement } from "react";
 
-export type CaseStudySlug =
-  | "aspen-grove"
-  | "dog-body-mind"
-  | "church-ops";
+export type CaseStudySlug = "aspen-grove" | "dog-body-mind" | "church-ops";
 
 export type CaseStudyMeta = {
   slug: CaseStudySlug;
@@ -13,7 +10,7 @@ export type CaseStudyMeta = {
   description: string;
 };
 
-export type MdxContentComponent = (props: MDXProps) => ReactElement;
+type MdxContentComponent = (props: MDXProps) => ReactElement;
 
 export type CaseStudyModule = {
   default: MdxContentComponent;

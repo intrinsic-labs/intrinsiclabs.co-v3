@@ -8,9 +8,9 @@ import {
   Instrument_Serif,
   Source_Code_Pro,
   JetBrains_Mono,
-  Cardo
+  Cardo,
 } from "next/font/google";
-import { SiteHeader } from "@/components/layout/SiteHeader";
+
 import { SiteFooter } from "@/components/layout/SiteFooter";
 import "./globals.css";
 
@@ -31,7 +31,7 @@ const ibmPlexMono = IBM_Plex_Mono({
 const cardo = Cardo({
   subsets: ["latin"],
   variable: "--font-cardo",
-  weight: ["400", "700",],
+  weight: ["400", "700"],
   display: "swap",
 });
 
@@ -95,7 +95,6 @@ export default function RootLayout({
       className={`${inter.variable} ${ibmPlexMono.variable} ${sourceSerif4.variable} ${dmMono.variable} ${googleSansCode.variable} ${instrumentSerif.variable} ${sourceCodePro.variable} ${jetBrainsMono.variable} ${cardo.variable}`}
     >
       <body className="site-shell">
-        {/*<SiteHeader />*/}
         <main className="flex-1">{children}</main>
         <SiteFooter />
       </body>

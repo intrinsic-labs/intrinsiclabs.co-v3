@@ -5,6 +5,8 @@ import { useMemo, useState } from "react";
 import { FiArrowLeft, FiArrowRight } from "react-icons/fi";
 import type { HomeProject } from "@/content/home";
 import { WireframeTree } from "./WireframeTree";
+import { WireframeDogHead } from "./WireframeDogHead";
+import { WireframeChurch } from "./WireframeChurch";
 
 type RadialProjectCarouselProps = {
   projects: HomeProject[];
@@ -83,9 +85,7 @@ export function RadialProjectCarousel({
   if (!projectCount || !activeProject) return null;
 
   const statusColor =
-    activeProject.status === "Live"
-      ? "text-status-live"
-      : "text-status-progress";
+    activeProject.status === "Live" ? "text-blue-400" : "text-copper";
 
   return (
     <div
@@ -96,7 +96,7 @@ export function RadialProjectCarousel({
         {/* LEFT: radial labels + separate focused card */}
         <div className="relative grid h-full grid-rows-[auto_minmax(0,1fr)] py-16">
           <header className="mb-8 max-w-2xl">
-            <p className="section-label">Projects</p>
+            <p className="section-label italic">~/Projects</p>
             {/*<h2 className="section-title mt-4">
               Selected work arranged as a rotating radial index.
             </h2>*/}
@@ -176,6 +176,12 @@ export function RadialProjectCarousel({
               {activeProject.viewportScene === "wireframe-tree" && (
                 <WireframeTree />
               )}
+              {activeProject.viewportScene === "wireframe-dog-head" && (
+                <WireframeDogHead />
+              )}
+              {activeProject.viewportScene === "wireframe-church" && (
+                <WireframeChurch />
+              )}
             </div>
 
             <article className="border-r border-cream/25 pl-5 pr-3 py-4 text-cream">
@@ -192,7 +198,7 @@ export function RadialProjectCarousel({
                 <h3 className="font-mono type-3xl uppercase type-tracking-wider text-cream">
                   {activeProject.name}
                 </h3>
-                <p className="mt-1 type-sm text-copper">
+                <p className="mt-1 type-sm text-blue-400">
                   {activeProject.subtitle}
                 </p>
               </div>

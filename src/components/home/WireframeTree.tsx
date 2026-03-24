@@ -42,6 +42,79 @@ export function WireframeTree() {
         return resource;
       };
 
+      /**
+       * Randomly samples `perTri` points on each triangle face of `geo`,
+       * transforms them by `matrix`, and returns a flat Float32Array of XYZ.
+       * Uses the sqrt trick for uniform barycentric distribution.
+       */
+      const sampleSurface = (
+        geo: import("three").BufferGeometry,
+        matrix: import("three").Matrix4,
+        perTri: number,
+      ): Float32Array => {
+        const nonIdx = geo.toNonIndexed();
+        const attr = nonIdx.getAttribute("position");
+        const triCount = attr.count / 3;
+        const out = new Float32Array(triCount * perTri * 3);
+        let ptr = 0;
+        const e = matrix.elements;
+
+        for (let t = 0; t < triCount; t++) {
+          const ax = attr.getX(t * 3),
+            ay = attr.getY(t * 3),
+            az = attr.getZ(t * 3);
+          const bx = attr.getX(t * 3 + 1),
+            by = attr.getY(t * 3 + 1),
+            bz = attr.getZ(t * 3 + 1);
+          const cx = attr.getX(t * 3 + 2),
+            cy = attr.getY(t * 3 + 2),
+            cz = attr.getZ(t * 3 + 2);
+
+          for (let s = 0; s < perTri; s++) {
+            const r1 = Math.sqrt(Math.random());
+            const r2 = Math.random();
+            const u = 1 - r1,
+              v = r1 * (1 - r2),
+              w = r1 * r2;
+
+            const lx = u * ax + v * bx + w * cx;
+            const ly = u * ay + v * by + w * cy;
+            const lz = u * az + v * bz + w * cz;
+
+            // apply matrix (column-major, no scale assumed)
+            out[ptr++] = e[0] * lx + e[4] * ly + e[8] * lz + e[12];
+            out[ptr++] = e[1] * lx + e[5] * ly + e[9] * lz + e[13];
+            out[ptr++] = e[2] * lx + e[6] * ly + e[10] * lz + e[14];
+          }
+        }
+
+        nonIdx.dispose();
+        return out;
+      };
+
+      /** Build a Matrix4 equivalent to an Object3D with position.y + rotation.y + rotation.z */
+      const branchMatrix = (
+        posY: number,
+        rotY: number,
+        rotZ: number,
+        meshOffsetY: number,
+      ): import("three").Matrix4 => {
+        const pivot = new THREE.Object3D();
+        pivot.position.y = posY;
+        pivot.rotation.y = rotY;
+        pivot.rotation.z = rotZ;
+        pivot.updateMatrix();
+
+        const meshLocal = new THREE.Object3D();
+        meshLocal.position.y = meshOffsetY;
+        meshLocal.updateMatrix();
+
+        return new THREE.Matrix4().multiplyMatrices(
+          pivot.matrix,
+          meshLocal.matrix,
+        );
+      };
+
       /* ── scene setup ───────────────────────────────────── */
 
       const scene = new THREE.Scene();
@@ -67,48 +140,44 @@ export function WireframeTree() {
 
       /* ── materials ─────────────────────────────────────── */
 
-      const trunkMat = track(
-        new THREE.MeshBasicMaterial({
+      // Trunk + branches share one material / one Points object
+      const structureMat = track(
+        new THREE.PointsMaterial({
           color: 0xd4c9a8,
-          wireframe: true,
+          size: 0.022,
+          sizeAttenuation: true,
+          transparent: true,
+          opacity: 0.65,
+        }),
+      );
+
+      const foliageMat = track(
+        new THREE.PointsMaterial({
+          color: 0x8a9a6a,
+          size: 0.032,
+          sizeAttenuation: true,
           transparent: true,
           opacity: 0.55,
         }),
       );
 
-      const branchMat = track(
-        new THREE.MeshBasicMaterial({
-          color: 0xc4b898,
-          wireframe: true,
-          transparent: true,
-          opacity: 0.4,
-        }),
-      );
-
-      const foliageMat = track(
-        new THREE.MeshBasicMaterial({
-          color: 0x8a9a6a,
-          wireframe: true,
-          transparent: true,
-          opacity: 0.28,
-        }),
-      );
-
       const foliageHighMat = track(
-        new THREE.MeshBasicMaterial({
+        new THREE.PointsMaterial({
           color: 0xa3b07a,
-          wireframe: true,
+          size: 0.03,
+          sizeAttenuation: true,
           transparent: true,
-          opacity: 0.22,
+          opacity: 0.45,
         }),
       );
 
       const foliageTinyMat = track(
-        new THREE.MeshBasicMaterial({
+        new THREE.PointsMaterial({
           color: 0x7a8a5e,
-          wireframe: true,
+          size: 0.022,
+          sizeAttenuation: true,
           transparent: true,
-          opacity: 0.18,
+          opacity: 0.38,
         }),
       );
 
@@ -126,7 +195,9 @@ export function WireframeTree() {
       const treeGroup = new THREE.Group();
       scene.add(treeGroup);
 
-      /* ── trunk ─────────────────────────────────────────── */
+      /* ── surface-sample trunk + branches into one cloud ── */
+
+      const structurePts: number[] = [];
 
       const trunkSegments = 5;
       const trunkHeight = 4.8;
@@ -137,12 +208,22 @@ export function WireframeTree() {
       for (let i = 0; i < trunkSegments; i++) {
         const rBot = baseRadius - taper * i;
         const rTop = baseRadius - taper * (i + 1);
-        const geo = track(
-          new THREE.CylinderGeometry(rTop, rBot, segHeight, 7, 1, true),
+        const geo = new THREE.CylinderGeometry(
+          rTop,
+          rBot,
+          segHeight,
+          8,
+          3,
+          true,
         );
-        const mesh = new THREE.Mesh(geo, trunkMat);
-        mesh.position.y = segHeight * 0.5 + segHeight * i;
-        treeGroup.add(mesh);
+
+        const obj = new THREE.Object3D();
+        obj.position.y = segHeight * 0.5 + segHeight * i;
+        obj.updateMatrix();
+
+        const pts = sampleSurface(geo, obj.matrix, 12);
+        for (let j = 0; j < pts.length; j++) structurePts.push(pts[j]);
+        geo.dispose();
       }
 
       /* ── branch helper ─────────────────────────────────── */
@@ -156,29 +237,19 @@ export function WireframeTree() {
       };
 
       const addBranch = (def: BranchDef) => {
-        const geo = track(
-          new THREE.CylinderGeometry(
-            def.radius * 0.4,
-            def.radius,
-            def.length,
-            5,
-            1,
-            true,
-          ),
+        const geo = new THREE.CylinderGeometry(
+          def.radius * 0.4,
+          def.radius,
+          def.length,
+          6,
+          2,
+          true,
         );
-        const mesh = new THREE.Mesh(geo, branchMat);
 
-        // Position at trunk attachment point
-        const pivot = new THREE.Group();
-        pivot.position.y = def.y;
-        pivot.rotation.y = def.angle;
-        pivot.rotation.z = def.pitch;
-
-        // Offset the cylinder so it starts at the trunk surface
-        mesh.position.y = def.length * 0.5;
-        mesh.position.x = 0;
-        pivot.add(mesh);
-        treeGroup.add(pivot);
+        const mat = branchMatrix(def.y, def.angle, def.pitch, def.length * 0.5);
+        const pts = sampleSurface(geo, mat, 9);
+        for (let j = 0; j < pts.length; j++) structurePts.push(pts[j]);
+        geo.dispose();
 
         // Return the world-approx tip position for foliage placement
         const tipLocal = new THREE.Vector3(0, def.length, 0);
@@ -217,9 +288,19 @@ export function WireframeTree() {
         branchTips.push(tip);
       }
 
+      // Commit the sampled trunk+branch points as a single Points object
+      const structureGeo = track(new THREE.BufferGeometry());
+      structureGeo.setAttribute(
+        "position",
+        new THREE.BufferAttribute(new Float32Array(structurePts), 3),
+      );
+      treeGroup.add(new THREE.Points(structureGeo, structureMat));
+
       /* ── foliage clusters ──────────────────────────────── */
 
-      // Place icosahedrons at branch tips + extra volumetric clusters
+      // Place icosahedrons at branch tips + extra volumetric clusters.
+      // Icosahedron vertices are already well-distributed so we keep them
+      // as vertex Points — no rings issue on a sphere.
       const addFoliageCluster = (
         pos: import("three").Vector3,
         size: number,
@@ -227,17 +308,15 @@ export function WireframeTree() {
         mat: import("three").Material,
       ) => {
         const geo = track(new THREE.IcosahedronGeometry(size, detail));
-        const mesh = new THREE.Mesh(geo, mat);
+        const mesh = new THREE.Points(geo, mat);
         mesh.position.copy(pos);
-        // Slight random rotation for variation
-        mesh.rotation.set(pos.x * 2.7, pos.y * 1.3, pos.z * 3.1);
         treeGroup.add(mesh);
       };
 
       // Clusters at branch tips (reduced ~15%)
       for (const tip of branchTips) {
         const size = (0.25 + Math.abs(Math.sin(tip.y * 3.7)) * 0.35) * 0.85;
-        addFoliageCluster(tip, size, 1, foliageMat);
+        addFoliageCluster(tip, size, 2, foliageMat);
       }
 
       // Extra volumetric canopy clusters (reduced ~15%)
@@ -259,7 +338,7 @@ export function WireframeTree() {
         addFoliageCluster(
           new THREE.Vector3(c.x, c.y, c.z),
           c.s,
-          1,
+          2,
           foliageHighMat,
         );
       }
@@ -284,7 +363,7 @@ export function WireframeTree() {
         addFoliageCluster(
           new THREE.Vector3(c.x, c.y, c.z),
           c.s,
-          0,
+          1,
           foliageTinyMat,
         );
       }
@@ -434,22 +513,6 @@ export function WireframeTree() {
         });
       }
 
-      /* ── subtle ground mark ────────────────────────────── */
-
-      const groundGeo = track(new THREE.RingGeometry(0.3, 0.8, 6));
-      const groundMat = track(
-        new THREE.MeshBasicMaterial({
-          color: 0xd4c9a8,
-          wireframe: true,
-          transparent: true,
-          opacity: 0.12,
-        }),
-      );
-      const groundMesh = new THREE.Mesh(groundGeo, groundMat);
-      groundMesh.rotation.x = -Math.PI / 2;
-      groundMesh.position.y = 0.01;
-      treeGroup.add(groundMesh);
-
       /* ── centre the tree so it rotates around its own axis */
 
       treeGroup.position.y = -2.0;
@@ -488,10 +551,10 @@ export function WireframeTree() {
         const t = time * 0.001; // seconds
         treeGroup.rotation.y = t * ROTATION_SPEED;
 
-        // Subtle sway on the foliage via slight oscillation
+        // Subtle sway on the foliage point clouds via scale pulse
         treeGroup.children.forEach((child) => {
           if (
-            child instanceof THREE.Mesh &&
+            child instanceof THREE.Points &&
             child.geometry instanceof THREE.IcosahedronGeometry
           ) {
             const breathe =

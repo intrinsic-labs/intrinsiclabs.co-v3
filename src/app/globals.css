@@ -189,7 +189,7 @@ a {
 
 .section-label {
   font-family: var(--font-mono);
-  text-transform: uppercase;
+  /*text-transform: uppercase;*/
   letter-spacing: var(--tracking-widest);
   line-height: var(--leading-normal);
   font-size: var(--text-sm);

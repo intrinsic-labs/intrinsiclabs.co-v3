@@ -6,7 +6,7 @@ export type HomeProject = {
   stack: string[];
   summary: string;
   href?: string;
-  viewportScene?: "wireframe-tree";
+  viewportScene?: "wireframe-tree" | "wireframe-dog-head" | "wireframe-church";
 };
 
 export const homeProjects: HomeProject[] = [
@@ -28,6 +28,7 @@ export const homeProjects: HomeProject[] = [
     stack: ["Next.js", "Internationalization", "Payment workflow"],
     summary:
       "Client platform focused on conversion and long-term maintainability across multiple locales and service offerings.",
+    viewportScene: "wireframe-dog-head",
   },
   {
     id: "003",
@@ -46,8 +47,9 @@ export const homeProjects: HomeProject[] = [
     stack: ["Android", "Kotlin", "Elo touch kiosks"],
     summary:
       "Operational software for event check-in and on-site flow, designed for reliability in real-world physical environments.",
+    viewportScene: "wireframe-church",
   },
 ];
 
 export const aboutTeaser =
-  "Self-taught engineer. I study the best systems and build to that standard, with architecture choices aimed at resilience instead of short-term demos.";
+  'I\'m a self taught software engineer. I firmly believe you can learn anything you want if you just sit down and work at it. I got tired of wishing apps would "just do this one thing", so I learned to code (pre-ChatGPT). I study the top players in a space, learn why they do things the way they do, then go and build cool stuff that can hold its own.';

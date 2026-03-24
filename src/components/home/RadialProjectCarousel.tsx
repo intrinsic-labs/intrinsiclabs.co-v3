@@ -96,12 +96,16 @@ export function RadialProjectCarousel({
         <div className="relative grid h-full grid-rows-[auto_minmax(0,1fr)] py-16">
           <header className="mb-8 max-w-2xl">
             <p className="section-label">Projects</p>
-            <h2 className="section-title mt-4">
+            {/*<h2 className="section-title mt-4">
               Selected work arranged as a rotating radial index.
-            </h2>
+            </h2>*/}
           </header>
 
           <div className="relative h-full overflow-hidden">
+            {/* Top & bottom vignette fade */}
+            <div className="pointer-events-none absolute inset-x-0 top-0 z-40 h-28 bg-gradient-to-b from-dark-grey to-transparent" />
+            <div className="pointer-events-none absolute inset-x-0 bottom-0 z-40 h-28 bg-gradient-to-t from-dark-grey to-transparent" />
+
             {/* guide circles clipped by viewport */}
             <div className="pointer-events-none absolute inset-0">
               <div className="absolute left-[-34rem] top-1/2 h-[68rem] w-[68rem] -translate-y-1/2 rounded-full border border-cream" />
@@ -112,10 +116,6 @@ export function RadialProjectCarousel({
 
             {/* Arc labels: compact + rotated, no full-card overlap */}
             {arcLabels.map((item) => {
-              const itemStatusColor =
-                item.project.status === "Live"
-                  ? "text-status-live"
-                  : "text-status-progress";
 
               return (
                 <button
@@ -138,7 +138,7 @@ export function RadialProjectCarousel({
                   >
                     <div
                       className={[
-                        "origin-left whitespace-nowrap border-l-10 pl-2 pr-2 py-1",
+                        "origin-left whitespace-nowrap border-l-6 pl-2 pr-2 py-1",
                         item.isFocused
                           ? "border-cream/70 text-cream"
                           : "border-transparent text-cream-muted",
@@ -150,17 +150,10 @@ export function RadialProjectCarousel({
                         {item.project.id}
                       </span>
                       <span
-                        className={[
-                          "font-mono type-sm uppercase type-tracking-wider",
-                          item.isFocused ? "font-bold" : "",
-                        ].join(" ")}
+                        className=
+                          {`font-mono ${item.isFocused ? "type-lg font-bold" : "type-xs"} uppercase type-tracking-wider`}
                       >
                         {item.project.name}
-                      </span>
-                      <span
-                        className={`mono-label ml-3 ${item.isFocused ? "" : "type-2xs"} ${itemStatusColor}`}
-                      >
-                        {item.project.status === "Live" ? "LIVE" : "PROGRESS"}
                       </span>
                     </div>
                   </div>
@@ -191,7 +184,7 @@ export function RadialProjectCarousel({
               </div>
 
               <div className="mt-4">
-                <h3 className="font-mono type-xl font-bold uppercase type-tracking-wider text-cream">
+                <h3 className="font-mono type-3xl uppercase type-tracking-wider text-cream">
                   {activeProject.name}
                 </h3>
                 <p className="mt-1 type-sm text-copper">

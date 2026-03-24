@@ -14,7 +14,7 @@ export const homeProjects: HomeProject[] = [
     status: "Live",
     name: "Aspen Grove",
     subtitle: "LLM Interface + Knowledge Tool",
-    stack: ["React Native", "TypeScript", "WatermelonDB", "Offline-first sync"],
+    stack: ["React Native", "WatermelonDB", "Offline-first sync"],
     summary:
       "Exploration-first AI interface focused on preserving context, branchable reasoning, and practical model control.",
   },
@@ -23,7 +23,7 @@ export const homeProjects: HomeProject[] = [
     status: "Live",
     name: "Dog Body Mind",
     subtitle: "Multilingual Fitness Platform",
-    stack: ["Next.js", "TypeScript", "Internationalization", "Payment workflow"],
+    stack: ["Next.js", "Internationalization", "Payment workflow"],
     summary:
       "Client platform focused on conversion and long-term maintainability across multiple locales and service offerings.",
   },
@@ -32,16 +32,16 @@ export const homeProjects: HomeProject[] = [
     status: "In Progress",
     name: "GFBR",
     subtitle: "Enterprise Sales Mobile App",
-    stack: ["Swift", "SwiftUI", "Kiosk Mode", "Sales workflow systems"],
+    stack: ["React Native", "Salesforce", "Okta SSO"],
     summary:
       "A mobile-first replacement concept for legacy enterprise sales process tooling with faster field usage patterns.",
   },
   {
     id: "004",
     status: "Live",
-    name: "Church Operations Tools",
+    name: "Church Ops",
     subtitle: "Check-In + Kiosk Stack",
-    stack: ["Android", "Kotlin", "Elo touch kiosks", "Open-source modules"],
+    stack: ["Android", "Kotlin", "Elo touch kiosks",],
     summary:
       "Operational software for event check-in and on-site flow, designed for reliability in real-world physical environments.",
   },

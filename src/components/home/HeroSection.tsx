@@ -120,7 +120,7 @@ export function HeroSection() {
         />
       </div>
 
-      <div className="container-shell pointer-events-none relative z-10 flex min-h-[calc(100vh-6rem)] flex-col justify-end pb-20 pt-16">
+      <div className="container-shell pointer-events-none relative z-10 flex min-h-[calc(100vh-6rem)] flex-col justify-end pb-6 md:pb-20 pt-16">
         <p className="hero-title text-cream-muted md:whitespace-nowrap">
           {"INTRINSIC LABS"}
         </p>

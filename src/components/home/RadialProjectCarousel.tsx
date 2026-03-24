@@ -1,8 +1,9 @@
 "use client";
 
 import Link from "next/link";
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { FiArrowLeft, FiArrowRight } from "react-icons/fi";
+import { getCaseStudyHref } from "@/content/case-studies/registry";
 import type { HomeProject } from "@/content/home";
 import { WireframeTree } from "./WireframeTree";
 import { WireframeDogHead } from "./WireframeDogHead";
@@ -34,11 +35,142 @@ function clamp(value: number, min: number, max: number) {
   return Math.min(max, Math.max(min, value));
 }
 
+/* ── Shared sub-components ─────────────────────────────────────────── */
+
+function ViewportScene({ scene }: { scene?: HomeProject["viewportScene"] }) {
+  switch (scene) {
+    case "wireframe-tree":
+      return <WireframeTree />;
+    case "wireframe-dog-head":
+      return <WireframeDogHead />;
+    case "wireframe-church":
+      return <WireframeChurch />;
+    case "wireframe-wifi":
+      return <WireframeWifi />;
+    default:
+      return null;
+  }
+}
+
+function NavButtons({
+  canGoPrev,
+  canGoNext,
+  goPrev,
+  goNext,
+}: {
+  canGoPrev: boolean;
+  canGoNext: boolean;
+  goPrev: () => void;
+  goNext: () => void;
+}) {
+  return (
+    <div className="flex items-center gap-2">
+      <button
+        type="button"
+        onClick={goPrev}
+        disabled={!canGoPrev}
+        aria-label="Previous project"
+        className="inline-flex h-10 md:h-9 flex-1 md:flex-none md:w-12 items-center justify-center border border-border-visible text-cream transition-colors hover:border-copper hover:text-copper disabled:cursor-not-allowed disabled:opacity-35 disabled:hover:border-border-visible disabled:hover:text-cream"
+      >
+        <FiArrowLeft className="h-4 w-4" />
+      </button>
+      <button
+        type="button"
+        onClick={goNext}
+        disabled={!canGoNext}
+        aria-label="Next project"
+        className="inline-flex h-10 md:h-9 flex-1 md:flex-none md:w-12 items-center justify-center border border-border-visible text-cream transition-colors hover:border-copper hover:text-copper disabled:cursor-not-allowed disabled:opacity-35 disabled:hover:border-border-visible disabled:hover:text-cream"
+      >
+        <FiArrowRight className="h-4 w-4" />
+      </button>
+    </div>
+  );
+}
+
+function ProjectCard({
+  project,
+  statusColor,
+}: {
+  project: HomeProject;
+  statusColor: string;
+}) {
+  return (
+    <>
+      <div className="flex items-center justify-between gap-4 border-b border-border-subtle pb-3">
+        <span className="mono-label type-xs text-cream-muted">
+          PROJECT_ID: {project.id}
+        </span>
+        <span className={`mono-label type-xs ${statusColor}`}>
+          STATUS: {project.status.toUpperCase()}
+        </span>
+      </div>
+
+      <div className="hidden md:block md:mt-4">
+        <h3 className="font-mono font-bold type-2xl md:type-3xl uppercase type-tracking-wider text-ink bg-cream-deep px-4">
+          {project.name}
+        </h3>
+        <p className="md:mt-1 type-sm text-blue-400">{project.subtitle}</p>
+      </div>
+
+      <p className="mt-2 md:mt-4 type-sm type-leading-snug md:type-leading-relaxed text-cream">
+        {project.summary}
+      </p>
+
+      <ul className="mt-4 flex flex-wrap gap-2">
+        {project.stack.map((stackItem) => (
+          <li
+            key={stackItem}
+            className="mono-label px-2 py-1 type-2xs text-cream-deep border border-cream-deep font-bold"
+          >
+            {stackItem}
+          </li>
+        ))}
+      </ul>
+
+      <div className="mt-5">
+        {project.caseStudySlug ? (
+          <Link
+            href={getCaseStudyHref(project.caseStudySlug)}
+            className="mono-label type-xs text-copper transition-colors hover:text-copper-deep"
+          >
+            VIEW CASE STUDY →
+          </Link>
+        ) : (
+          <span className="mono-label type-xs text-ink-dim">
+            CASE STUDY IN PROGRESS
+          </span>
+        )}
+      </div>
+    </>
+  );
+}
+
+/* ── Main component ────────────────────────────────────────────────── */
+
 export function RadialProjectCarousel({
   projects,
   className,
 }: RadialProjectCarouselProps) {
   const [activeIndex, setActiveIndex] = useState(0);
+  const wrapperRef = useRef<HTMLDivElement>(null);
+
+  // On mount, read URL hash (e.g. #project-aspen-grove) and jump to that project
+  useEffect(() => {
+    const hash = window.location.hash.replace("#", "");
+    if (!hash.startsWith("project-")) return;
+    const slug = hash.replace("project-", "");
+    const idx = projects.findIndex(
+      (p) => p.caseStudySlug === slug || p.id === slug,
+    );
+    if (idx >= 0) {
+      setActiveIndex(idx);
+      // Give the browser a frame to paint, then scroll the carousel into view
+      requestAnimationFrame(() => {
+        wrapperRef.current?.scrollIntoView({ behavior: "smooth" });
+      });
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const projectCount = projects.length;
   const activeProject = projects[activeIndex];
@@ -50,7 +182,6 @@ export function RadialProjectCarousel({
     setActiveIndex((prev) => Math.min(projectCount - 1, prev + 1));
 
   const arcLabels = useMemo<ArcLabel[]>(() => {
-    // Circle center is pushed offscreen-left so we only see the right half.
     const radius = 475;
     const centerX = -355;
     const centerY = 0;
@@ -66,7 +197,6 @@ export function RadialProjectCarousel({
       const x = centerX + radius * Math.cos(thetaRad);
       const y = centerY + radius * Math.sin(thetaRad);
 
-      // Rotate labels to follow the arc direction without becoming unreadable.
       const rotation = clamp(thetaDeg * 0.9, -62, 62);
 
       return {
@@ -90,17 +220,66 @@ export function RadialProjectCarousel({
 
   return (
     <div
-      className={`relative min-h-[min(78vh,54rem)] ${className ?? ""}`}
-      aria-label="Projects radial carousel"
+      ref={wrapperRef}
+      id="projects"
+      className={`relative ${className ?? ""}`}
+      aria-label="Projects carousel"
     >
-      <div className="container-shell relative z-10 grid min-h-[min(78vh,54rem)] grid-cols-1 md:grid-cols-[minmax(0,58%)_minmax(0,42%)]">
-        {/* LEFT: radial labels + separate focused card */}
+      {/* ═══════════════════════════════════════════════════════════════
+          MOBILE LAYOUT  (< md)
+          Simple stacked card with scene + details + nav
+       ═══════════════════════════════════════════════════════════════ */}
+      <div className="container-shell block md:hidden">
+
+
+        {/* Wireframe scene — explicit min-h + key forces remount per project */}
+        <div
+          key={activeProject.id}
+          className="relative w-full overflow-hidden rounded-sm mt-3"
+          style={{ aspectRatio: "4 / 3", minHeight: "16rem" }}
+        >
+          <ViewportScene scene={activeProject.viewportScene} />
+
+          {/* Name + subtitle overlay, centered */}
+          <div className="flex flex-col items-center justify-center absolute inset-0 text-center px-4">
+            <h3 className="font-mono type-3xl uppercase type-tracking-wider text-cream type-leading-snug text-center">
+              {activeProject.name}
+            </h3>
+            <p className="mt-1 type-sm text-cream/75 text-center">
+              {activeProject.subtitle}
+            </p>
+          </div>
+        </div>
+
+        {/* Project details card */}
+        <article className="mt-6  text-cream">
+          <ProjectCard project={activeProject} statusColor={statusColor} />
+
+          <div className="mt-6 space-y-3">
+            <NavButtons
+              canGoPrev={canGoPrev}
+              canGoNext={canGoNext}
+              goPrev={goPrev}
+              goNext={goNext}
+            />
+            <div className="text-center">
+              <span className="mono-label type-2xs text-ink-dim">
+                {activeIndex + 1}/{projectCount}
+              </span>
+            </div>
+          </div>
+        </article>
+      </div>
+
+      {/* ═══════════════════════════════════════════════════════════════
+          DESKTOP LAYOUT  (md+)
+          Original radial arc on the left, project card on the right
+       ═══════════════════════════════════════════════════════════════ */}
+      <div className="container-shell relative z-10 hidden min-h-[min(78vh,54rem)] md:grid md:grid-cols-[minmax(0,58%)_minmax(0,42%)]">
+        {/* LEFT: radial labels */}
         <div className="relative grid h-full grid-rows-[auto_minmax(0,1fr)] py-16">
           <header className="mb-8 max-w-2xl">
             <p className="section-label italic">~/Projects</p>
-            {/*<h2 className="section-title mt-4">
-              Selected work arranged as a rotating radial index.
-            </h2>*/}
           </header>
 
           <div className="relative h-full overflow-hidden">
@@ -108,154 +287,75 @@ export function RadialProjectCarousel({
             <div className="pointer-events-none absolute inset-x-0 top-0 z-40 h-28 bg-gradient-to-b from-dark-grey to-transparent" />
             <div className="pointer-events-none absolute inset-x-0 bottom-0 z-40 h-28 bg-gradient-to-t from-dark-grey to-transparent" />
 
-            {/* guide circles clipped by viewport */}
+            {/* Guide circles clipped by viewport */}
             <div className="pointer-events-none absolute inset-0">
               <div className="absolute left-[-34rem] top-1/2 h-[68rem] w-[68rem] -translate-y-1/2 rounded-full border border-cream" />
-              <div className="absolute left-[-34rem] top-1/2 h-[67rem] w-[67rem] -translate-y-1/2 rounded-full border border-cream/25" />
+              <div className="absolute left-[-34rem] top-1/2 h-[67rem] w-[67rem] -translate-y-1/2 rounded-full border border-blue-400/25" />
               <div className="absolute left-[-34rem] top-1/2 h-[38rem] w-[38rem] -translate-y-1/2 rounded-full border border-cream/25" />
-              {/*<div className="absolute left-[clamp(0.45rem,1.4vw,1.25rem)] top-10 bottom-10 w-px " />*/}
             </div>
 
-            {/* Arc labels: compact + rotated, no full-card overlap */}
-            {arcLabels.map((item) => {
-              return (
-                <button
-                  key={item.project.id}
-                  type="button"
-                  onClick={() => setActiveIndex(item.index)}
-                  aria-label={`Focus project ${item.project.name}`}
-                  aria-current={item.isFocused}
-                  className="absolute left-0 top-1/2 bg-transparent text-left transition-all duration-500 ease-[cubic-bezier(.2,.75,.2,1)]"
-                  style={{
-                    transform: `translate3d(${item.x}px, calc(-50% + ${item.y}px), 0)`,
-                    opacity: item.isVisible ? item.opacity : 0,
-                    zIndex: item.isFocused ? 30 : 20,
-                    pointerEvents: item.isVisible ? "auto" : "none",
-                  }}
+            {/* Arc labels */}
+            {arcLabels.map((item) => (
+              <button
+                key={item.project.id}
+                type="button"
+                onClick={() => setActiveIndex(item.index)}
+                aria-label={`Focus project ${item.project.name}`}
+                aria-current={item.isFocused}
+                className="absolute left-0 top-1/2 bg-transparent text-left transition-all duration-500 ease-[cubic-bezier(.2,.75,.2,1)]"
+                style={{
+                  transform: `translate3d(${item.x}px, calc(-50% + ${item.y}px), 0)`,
+                  opacity: item.isVisible ? item.opacity : 0,
+                  zIndex: item.isFocused ? 30 : 20,
+                  pointerEvents: item.isVisible ? "auto" : "none",
+                }}
+              >
+                <div
+                  className="origin-left transition-transform duration-500 ease-[cubic-bezier(.2,.75,.2,1)]"
+                  style={{ transform: `rotate(${item.rotation}deg)` }}
                 >
                   <div
-                    className="origin-left transition-transform duration-500 ease-[cubic-bezier(.2,.75,.2,1)]"
-                    style={{ transform: `rotate(${item.rotation}deg)` }}
+                    className={[
+                      "origin-left whitespace-nowrap border-l-6 pl-2 pr-2 py-1",
+                      item.isFocused
+                        ? "border-cream/70 text-cream"
+                        : "border-transparent text-cream-muted",
+                    ].join(" ")}
                   >
-                    <div
-                      className={[
-                        "origin-left whitespace-nowrap border-l-6 pl-2 pr-2 py-1",
-                        item.isFocused
-                          ? "border-cream/70 text-cream"
-                          : "border-transparent text-cream-muted",
-                      ].join(" ")}
+                    <span
+                      className={`mono-label mr-2 ${item.isFocused ? "" : "type-2xs"} text-ink-dim`}
                     >
-                      <span
-                        className={`mono-label mr-2 ${item.isFocused ? "" : "type-2xs"} text-ink-dim`}
-                      >
-                        {item.project.id}
-                      </span>
-                      <span
-                        className={`font-mono ${item.isFocused ? "type-lg font-bold" : "type-xs"} uppercase type-tracking-wider`}
-                      >
-                        {item.project.name}
-                      </span>
-                    </div>
+                      {item.project.id}
+                    </span>
+                    <span
+                      className={`font-mono ${item.isFocused ? "type-lg font-bold" : "type-xs"} uppercase type-tracking-wider`}
+                    >
+                      {item.project.name}
+                    </span>
                   </div>
-                </button>
-              );
-            })}
+                </div>
+              </button>
+            ))}
           </div>
         </div>
 
-        {/* RIGHT: reserved viewport + focused project card */}
-        <aside className="relative hidden md:block">
+        {/* RIGHT: viewport scene + focused project card */}
+        <aside className="relative">
           <div className="absolute inset-8 grid grid-rows-[minmax(0,52%)_minmax(0,48%)] gap-4">
             <div className="relative rounded-sm overflow-hidden">
-              {/*<div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,color-mix(in_srgb,var(--color-cream)_7%,transparent),transparent_68%)]" />*/}
-              {/*<div className="absolute left-4 top-4 z-10 mono-label type-2xs text-ink-dim">
-                OBJECT_VIEWPORT //{" "}
-                {activeProject.viewportScene
-                  ? activeProject.name.toUpperCase()
-                  : "RESERVED"}
-              </div>*/}
-              {activeProject.viewportScene === "wireframe-tree" && (
-                <WireframeTree />
-              )}
-              {activeProject.viewportScene === "wireframe-dog-head" && (
-                <WireframeDogHead />
-              )}
-              {activeProject.viewportScene === "wireframe-church" && (
-                <WireframeChurch />
-              )}
-              {activeProject.viewportScene === "wireframe-wifi" && (
-                <WireframeWifi />
-              )}
+              <ViewportScene scene={activeProject.viewportScene} />
             </div>
 
-            <article className="border-r border-cream/25 pl-5 pr-3 py-4 text-cream">
-              <div className="flex items-center justify-between gap-4 border-b border-border-subtle pb-3">
-                <span className="mono-label type-xs text-cream-muted">
-                  PROJECT_ID: {activeProject.id}
-                </span>
-                <span className={`mono-label type-xs ${statusColor}`}>
-                  STATUS: {activeProject.status.toUpperCase()}
-                </span>
-              </div>
-
-              <div className="mt-4">
-                <h3 className="font-mono type-3xl uppercase type-tracking-wider text-cream">
-                  {activeProject.name}
-                </h3>
-                <p className="mt-1 type-sm text-blue-400">
-                  {activeProject.subtitle}
-                </p>
-              </div>
-
-              <p className="mt-4 type-sm type-leading-relaxed text-cream">
-                {activeProject.summary}
-              </p>
-
-              <ul className="mt-4 flex flex-wrap gap-2">
-                {activeProject.stack.map((stackItem) => (
-                  <li
-                    key={stackItem}
-                    className="mono-label bg-cream-deep px-2 py-1 type-2xs text-ink font-bold"
-                  >
-                    {stackItem}
-                  </li>
-                ))}
-              </ul>
+            <article className="py-4 text-cream">
+              <ProjectCard project={activeProject} statusColor={statusColor} />
 
               <div className="mt-5">
-                {activeProject.href ? (
-                  <Link
-                    href={activeProject.href}
-                    className="mono-label type-xs text-copper transition-colors hover:text-copper-deep"
-                  >
-                    VIEW CASE STUDY →
-                  </Link>
-                ) : (
-                  <span className="mono-label type-xs text-ink-dim">
-                    CASE STUDY IN PROGRESS
-                  </span>
-                )}
-              </div>
-
-              <div className="mt-5 flex items-center gap-2">
-                <button
-                  type="button"
-                  onClick={goPrev}
-                  disabled={!canGoPrev}
-                  aria-label="Previous project"
-                  className="inline-flex h-9 w-12 items-center justify-center border border-border-visible text-cream transition-colors hover:border-copper hover:text-copper disabled:cursor-not-allowed disabled:opacity-35 disabled:hover:border-border-visible disabled:hover:text-cream"
-                >
-                  <FiArrowLeft className="h-4 w-4" />
-                </button>
-                <button
-                  type="button"
-                  onClick={goNext}
-                  disabled={!canGoNext}
-                  aria-label="Next project"
-                  className="inline-flex h-9 w-12 items-center justify-center border border-border-visible text-cream transition-colors hover:border-copper hover:text-copper disabled:cursor-not-allowed disabled:opacity-35 disabled:hover:border-border-visible disabled:hover:text-cream"
-                >
-                  <FiArrowRight className="h-4 w-4" />
-                </button>
+                <NavButtons
+                  canGoPrev={canGoPrev}
+                  canGoNext={canGoNext}
+                  goPrev={goPrev}
+                  goNext={goNext}
+                />
               </div>
             </article>
           </div>

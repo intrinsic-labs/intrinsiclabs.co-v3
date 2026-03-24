@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { getCaseStudyHref } from "@/content/case-studies/registry";
 import type { HomeProject } from "@/content/home";
 
 type ProjectCardProps = {
@@ -44,9 +45,9 @@ export function ProjectCard({ project }: ProjectCardProps) {
         </ul>
 
         <div className="mt-8">
-          {project.href ? (
+          {project.caseStudySlug ? (
             <Link
-              href={project.href}
+              href={getCaseStudyHref(project.caseStudySlug)}
               className="mono-label type-xs text-copper transition-colors hover:text-copper-deep"
             >
               VIEW CASE STUDY →

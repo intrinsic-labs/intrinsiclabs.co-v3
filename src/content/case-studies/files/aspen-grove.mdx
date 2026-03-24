@@ -1,0 +1,28 @@
+### The Problem
+Every major AI chat interface works the same way: a linear thread, one message after another, no way to explore alternatives or go back and try a different direction without losing context. But language models are probability spaces — the same prompt can produce wildly different responses. The linear chat format actively hides this, reducing a powerful tool to a single-path conversation.
+
+I wanted to build something that makes that exploration first-class: branch, backtrack, compare alternatives, and build understanding through navigating a tree of possibilities.
+
+### Architecture
+Aspen Grove is built on a **hypergraph-backed tree structure** where every conversation is a Loom Tree — nodes connected by directed hyperedges that support branching, annotation, and multi-source context assembly.
+
+**Key design decisions:**
+- **Nodes are immutable.** Edits create new nodes with lineage tracking (`editedFrom`), preserving complete history. This isn't just a nice-to-have — it's foundational to the provenance system.
+- **Both humans and models are Agents.** Uniform treatment at the API level means a model configured for creative writing and the same model configured for analysis are separate agents with separate permissions. One model can back multiple agents.
+- **Provenance is tiered.** SHA-256 hash chains provide tamper evidence by default. RFC 3161 timestamp certificates prove existence at a specific time. Raw API responses are stored compressed for every model-generated node. The raw response hash is computed immediately upon receipt, before any parsing.
+- **Clean Architecture with four layers.** Domain knows nothing about persistence or UI. Application defines interfaces. Infrastructure implements them. TypeScript import rules enforce boundaries — this isn't just a guideline, it's automated.
+- **Loom-aware tools are parsed client-side.** Instead of registering tools through provider APIs (which creates conflicting guidance across providers), the `→ command` syntax is parsed entirely on the client. This ensures consistent behavior regardless of which LLM provider is being used.
+
+### Stack
+React Native (Expo), TypeScript, WatermelonDB (SQLite-backed, lazy loading, observable queries), Clean Architecture
+
+### What I Built
+- Complete domain model and specification (50+ pages of architectural documentation)
+- Hypergraph data model supporting branching exploration, annotations, and cross-tree knowledge linking
+- Context assembly algorithm with multiple truncation strategies (middle-truncate, rolling window, stop-at-limit)
+- Custom tool system for loom-aware model interaction
+- Provenance system with hash chains and RFC 3161 timestamp support
+- Multi-provider LLM abstraction layer
+
+### Status
+Open source. In active development. [GitHub →]

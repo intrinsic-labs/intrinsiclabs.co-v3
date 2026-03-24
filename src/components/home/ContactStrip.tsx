@@ -8,7 +8,7 @@ export function ContactStrip() {
         <p className="section-label">Get In Touch</p>
         <Link
           href="mailto:helloworld@intrinsiclabs.co"
-          className="section-title mt-5 inline-block normal-case text-cream transition-colors hover:text-copper"
+          className="section-title mt-5 inline-block normal-case text-blue-400 transition-colors hover:text-copper"
         >
           helloworld@intrinsiclabs.co
         </Link>

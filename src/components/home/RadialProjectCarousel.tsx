@@ -77,7 +77,7 @@ function NavButtons({
         onClick={goPrev}
         disabled={!canGoPrev}
         aria-label="Previous project"
-        className="inline-flex h-10 md:h-9 flex-1 md:flex-none md:w-12 items-center justify-center border border-border-visible text-cream transition-colors hover:border-copper hover:text-copper disabled:cursor-not-allowed disabled:opacity-35 disabled:hover:border-border-visible disabled:hover:text-cream"
+        className="inline-flex h-10 md:h-9 flex-1 items-center justify-center border border-border-visible text-cream transition-colors hover:border-copper hover:text-copper disabled:cursor-not-allowed disabled:opacity-35 disabled:hover:border-border-visible disabled:hover:text-cream"
       >
         <FiArrowLeft className="h-4 w-4" />
       </button>
@@ -86,7 +86,7 @@ function NavButtons({
         onClick={goNext}
         disabled={!canGoNext}
         aria-label="Next project"
-        className="inline-flex h-10 md:h-9 flex-1 md:flex-none md:w-12 items-center justify-center border border-border-visible text-cream transition-colors hover:border-copper hover:text-copper disabled:cursor-not-allowed disabled:opacity-35 disabled:hover:border-border-visible disabled:hover:text-cream"
+        className="inline-flex h-10 md:h-9 flex-1 items-center justify-center border border-border-visible text-cream transition-colors hover:border-copper hover:text-copper disabled:cursor-not-allowed disabled:opacity-35 disabled:hover:border-border-visible disabled:hover:text-cream"
       >
         <FiArrowRight className="h-4 w-4" />
       </button>
@@ -286,7 +286,7 @@ export function RadialProjectCarousel({
        ═══════════════════════════════════════════════════════════════ */}
       <div className="container-shell block md:hidden">
         {/* Wireframe scene — explicit min-h + key forces remount per project */}
-        <p className="section-label text-xs italic opacity-65">~/Projects</p>
+        <p className="section-label text-xs italic opacity-65">~/projects</p>
         <div
           key={activeProject.id}
           className="relative w-full overflow-hidden rounded-sm mt-3"
@@ -333,7 +333,7 @@ export function RadialProjectCarousel({
         {/* LEFT: radial labels */}
         <div className="relative grid h-full grid-rows-[auto_minmax(0,1fr)] py-16">
           <header className="mb-8 max-w-2xl">
-            <p className="section-label text-sm italic">~/Projects</p>
+            <p className="section-label text-sm italic">~/projects</p>
           </header>
 
           <div className="relative h-full overflow-hidden">

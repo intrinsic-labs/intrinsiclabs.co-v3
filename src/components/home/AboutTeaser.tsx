@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { aboutTeaser } from "@/content/home";
 
 export function AboutTeaser() {
@@ -7,15 +8,20 @@ export function AboutTeaser() {
         <div className="section-divider" />
         <div className="mt-10 grid gap-8 md:grid-cols-[2fr_1fr] md:items-end">
           <div>
-            <p className="section-label italic opacity-60 md:opacity-100 text-xs md:text-sm">~/About</p>
+            <p className="section-label italic opacity-60 md:opacity-100 text-xs md:text-sm">
+              ~/about
+            </p>
             <p className="mt-5 max-w-3xl type-lg type-leading-snug md:type-leading-normal text-cream">
               {aboutTeaser}
             </p>
           </div>
           <div className="md:text-right">
-            <span className="mono-label type-sm text-copper">
+            <Link
+              href="/about"
+              className="mono-label type-sm text-copper transition-colors hover:text-copper-deep"
+            >
               MORE ABOUT ME →
-            </span>
+            </Link>
           </div>
         </div>
       </div>

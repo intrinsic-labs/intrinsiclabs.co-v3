@@ -5,7 +5,7 @@ export function ContactStrip() {
     <section id="contact" className="pb-28 pt-24 md:pb-36">
       <div className="container-shell border-t border-border-subtle">
         <div className="section-divider mb-9" />
-        <p className="section-label">Get In Touch</p>
+        <p className="section-label italic opacity-60 md:opacity-100 text-xs md:text-sm">~/get-in-touch</p>
         <Link
           href="mailto:helloworld@intrinsiclabs.co"
           className="section-title mt-5 inline-block normal-case text-blue-400 transition-colors hover:text-blue-200 underline"

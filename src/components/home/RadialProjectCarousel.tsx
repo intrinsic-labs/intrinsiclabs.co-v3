@@ -77,7 +77,7 @@ function NavButtons({
         onClick={goPrev}
         disabled={!canGoPrev}
         aria-label="Previous project"
-        className="inline-flex h-10 md:h-9 flex-1 items-center justify-center border border-border-visible text-cream transition-colors hover:border-copper hover:text-copper disabled:cursor-not-allowed disabled:opacity-35 disabled:hover:border-border-visible disabled:hover:text-cream"
+        className="inline-flex h-10 lg:h-9 flex-1 items-center justify-center border border-border-visible text-cream transition-colors hover:border-copper hover:text-copper disabled:cursor-not-allowed disabled:opacity-35 disabled:hover:border-border-visible disabled:hover:text-cream"
       >
         <FiArrowLeft className="h-4 w-4" />
       </button>
@@ -86,7 +86,7 @@ function NavButtons({
         onClick={goNext}
         disabled={!canGoNext}
         aria-label="Next project"
-        className="inline-flex h-10 md:h-9 flex-1 items-center justify-center border border-border-visible text-cream transition-colors hover:border-copper hover:text-copper disabled:cursor-not-allowed disabled:opacity-35 disabled:hover:border-border-visible disabled:hover:text-cream"
+        className="inline-flex h-10 lg:h-9 flex-1 items-center justify-center border border-border-visible text-cream transition-colors hover:border-copper hover:text-copper disabled:cursor-not-allowed disabled:opacity-35 disabled:hover:border-border-visible disabled:hover:text-cream"
       >
         <FiArrowRight className="h-4 w-4" />
       </button>
@@ -149,7 +149,7 @@ function ProjectCard({
 }) {
   return (
     <>
-      <div className="hidden md:flex items-center justify-between gap-4 border-b border-border-subtle pb-3">
+      <div className="hidden lg:flex items-center justify-between gap-4 border-b border-border-subtle pb-3">
         <span className="mono-label type-xs text-cream-muted">
           PROJECT_ID: {project.id}
         </span>
@@ -158,14 +158,14 @@ function ProjectCard({
         </span>
       </div>
 
-      <div className="hidden md:block md:mt-4">
-        <h3 className="font-mono font-bold type-2xl md:type-3xl uppercase type-tracking-wider text-ink bg-cream-deep px-4">
+      <div className="hidden lg:block lg:mt-4">
+        <h3 className="font-mono font-bold type-2xl lg:type-3xl uppercase type-tracking-wider text-ink bg-cream-deep px-4">
           {project.name}
         </h3>
-        <p className="md:mt-1 type-sm text-blue-400">{project.subtitle}</p>
+        <p className="lg:mt-1 type-sm text-blue-400">{project.subtitle}</p>
       </div>
 
-      <p className="mt-2 md:mt-4 type-sm type-leading-snug md:type-leading-relaxed text-cream">
+      <p className="mt-2 lg:mt-4 type-sm type-leading-snug lg:type-leading-relaxed text-cream">
         {project.summary}
       </p>
 
@@ -281,10 +281,10 @@ export function RadialProjectCarousel({
       aria-label="Projects carousel"
     >
       {/* ═══════════════════════════════════════════════════════════════
-          MOBILE LAYOUT  (< md)
+          MOBILE LAYOUT  (< lg)
           Simple stacked card with scene + details + nav
        ═══════════════════════════════════════════════════════════════ */}
-      <div className="container-shell block md:hidden">
+      <div className="container-shell block lg:hidden">
         {/* Wireframe scene — explicit min-h + key forces remount per project */}
         <p className="section-label text-xs italic opacity-65">~/projects</p>
         <div
@@ -326,10 +326,10 @@ export function RadialProjectCarousel({
       </div>
 
       {/* ═══════════════════════════════════════════════════════════════
-          DESKTOP LAYOUT  (md+)
+          DESKTOP LAYOUT  (lg+)
           Original radial arc on the left, project card on the right
        ═══════════════════════════════════════════════════════════════ */}
-      <div className="container-shell relative z-10 hidden min-h-[min(78vh,54rem)] md:grid md:grid-cols-[minmax(0,58%)_minmax(0,42%)]">
+      <div className="container-shell relative z-10 hidden min-h-[min(78vh,54rem)] lg:grid lg:grid-cols-[minmax(0,58%)_minmax(0,42%)]">
         {/* LEFT: radial labels */}
         <div className="relative grid h-full grid-rows-[auto_minmax(0,1fr)] py-16">
           <header className="mb-8 max-w-2xl">

@@ -21,7 +21,7 @@ export function CaseStudyLayout({
           <p className="mono-label type-xs text-copper text-center border border-copper rounded-full flex justify-center w-fit mx-auto px-3 py-1">
             Case Study
           </p>
-          <h1 className="mt-3 font-mono type-3xl md:type-5xl type-tracking-tight type-leading-snug py-2 md:py-0 text-cream text-center">
+          <h1 className="mt-3 font-mono type-3xl lg:type-5xl type-tracking-tight type-leading-snug py-2 lg:py-0 text-cream text-center">
             {projectName}
           </h1>
           <p className="mt-3 type-sm text-blue-400 text-center">{subtitle}</p>
@@ -35,7 +35,7 @@ export function CaseStudyLayout({
         </header>
 
         <div className="mt-10">{children}</div>
-        
+
         <div className="border-t border-border-subtle mt-16" />
         <Link
           href={`/#project-${slug}`}
@@ -44,9 +44,6 @@ export function CaseStudyLayout({
           ← Back To Projects
         </Link>
       </div>
-      
-      
-      
     </section>
   );
 }

@@ -37,7 +37,7 @@ export function SiteHeader() {
           {scrolled ? "IL" : "INTRINSIC LABS"}
         </Link>
 
-        <nav className="hidden items-center gap-7 md:flex">
+        <nav className="hidden items-center gap-7 lg:flex">
           {navItems.map((item) => (
             <Link
               key={item.href}
@@ -60,7 +60,7 @@ export function SiteHeader() {
         <button
           type="button"
           aria-label="Toggle menu"
-          className="mono-label type-xs text-cream md:hidden"
+          className="mono-label type-xs text-cream lg:hidden"
           onClick={() => setMobileMenuOpen((open) => !open)}
         >
           {mobileMenuOpen ? "Close" : "Menu"}
@@ -68,7 +68,7 @@ export function SiteHeader() {
       </div>
 
       <div
-        className={`md:hidden transition-all duration-300 overflow-hidden border-t border-transparent ${
+        className={`lg:hidden transition-all duration-300 overflow-hidden border-t border-transparent ${
           mobileMenuOpen
             ? "max-h-80 border-border-subtle bg-dark-grey/95 backdrop-blur-xl"
             : "max-h-0"

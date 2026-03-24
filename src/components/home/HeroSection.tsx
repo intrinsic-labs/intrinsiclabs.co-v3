@@ -109,9 +109,7 @@ export function HeroSection() {
   return (
     <section className="relative min-h-screen border-b border-border-subtle pt-24">
       {/* Retina canvas background - fills section with vignette fade */}
-      <div
-        className="absolute inset-0"
-      >
+      <div className="absolute inset-0">
         <RetinaCanvas
           ref={canvasRef}
           className="w-full h-full"
@@ -120,8 +118,8 @@ export function HeroSection() {
         />
       </div>
 
-      <div className="container-shell pointer-events-none relative z-10 flex min-h-[calc(100vh-6rem)] flex-col justify-end pb-6 md:pb-20 pt-16">
-        <p className="hero-title text-cream-muted md:whitespace-nowrap">
+      <div className="container-shell pointer-events-none relative z-10 flex min-h-[calc(100vh-6rem)] flex-col justify-end pb-6 lg:pb-20 pt-16">
+        <p className="hero-title text-cream-muted lg:whitespace-nowrap">
           {"INTRINSIC LABS"}
         </p>
         <h1 className="hero-heading underline text-blue-400">
@@ -129,12 +127,12 @@ export function HeroSection() {
         </h1>
 
         {/* Desktop: keyboard shortcuts */}
-        <p className="hidden md:block mt-2 md:text-md opacity-60 font-light hover:opacity-85 transition-opacity">
+        <p className="hidden lg:block mt-2 lg:text-md opacity-60 font-light hover:opacity-85 transition-opacity">
           rotate: [shift + scroll] zoom: [+/-] toggle colors: [c]
         </p>
 
         {/* Mobile: tappable controls */}
-        <div className="md:hidden mt-2 type-xs opacity-60 font-light space-y-1 pointer-events-auto">
+        <div className="lg:hidden mt-2 type-xs opacity-60 font-light space-y-1 pointer-events-auto">
           <button
             onClick={toggleTouchMode}
             className="block text-left hover:opacity-85 active:opacity-100 transition-opacity"

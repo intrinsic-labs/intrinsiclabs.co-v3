@@ -6,16 +6,16 @@ export function AboutTeaser() {
     <section id="about" className="border-t border-border-subtle">
       <div className="container-shell">
         <div className="section-divider" />
-        <div className="mt-10 grid gap-8 md:grid-cols-[2fr_1fr] md:items-end">
+        <div className="mt-10 grid gap-8 lg:grid-cols-[2fr_1fr] lg:items-end">
           <div>
-            <p className="section-label italic opacity-60 md:opacity-100 text-xs md:text-sm">
+            <p className="section-label italic opacity-60 lg:opacity-100 text-xs lg:text-sm">
               ~/about
             </p>
-            <p className="mt-5 max-w-3xl type-lg type-leading-snug md:type-leading-normal text-cream">
+            <p className="mt-5 max-w-3xl type-lg type-leading-snug lg:type-leading-normal text-cream">
               {aboutTeaser}
             </p>
           </div>
-          <div className="md:text-right">
+          <div className="lg:text-right">
             <Link
               href="/about"
               className="mono-label type-sm text-copper transition-colors hover:text-copper-deep"

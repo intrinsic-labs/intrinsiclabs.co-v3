@@ -166,7 +166,10 @@ export function RadialProjectCarousel({
       setActiveIndex(idx);
       // Give the browser a frame to paint, then scroll the carousel into view
       requestAnimationFrame(() => {
-        wrapperRef.current?.scrollIntoView({ behavior: "smooth" });
+        wrapperRef.current?.scrollIntoView({
+          behavior: "smooth",
+          block: "center",
+        });
       });
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -230,8 +233,6 @@ export function RadialProjectCarousel({
           Simple stacked card with scene + details + nav
        ═══════════════════════════════════════════════════════════════ */}
       <div className="container-shell block md:hidden">
-
-
         {/* Wireframe scene — explicit min-h + key forces remount per project */}
         <div
           key={activeProject.id}

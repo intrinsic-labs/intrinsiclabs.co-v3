@@ -235,47 +235,47 @@ a {
   color: var(--color-cream);
 }
 
-.type-2xs {
+@utility type-2xs {
   font-size: var(--text-2xs);
 }
 
-.type-xs {
+@utility type-xs {
   font-size: var(--text-xs);
 }
 
-.type-sm {
+@utility type-sm {
   font-size: var(--text-sm);
 }
 
-.type-md {
+@utility type-md {
   font-size: var(--text-md);
 }
 
-.type-lg {
+@utility type-lg {
   font-size: var(--text-lg);
 }
 
-.type-xl {
+@utility type-xl {
   font-size: var(--text-xl);
 }
 
-.type-2xl {
+@utility type-2xl {
   font-size: var(--text-2xl);
 }
 
-.type-3xl {
+@utility type-3xl {
   font-size: var(--text-3xl);
 }
 
-.type-4xl {
+@utility type-4xl {
   font-size: var(--text-4xl);
 }
 
-.type-5xl {
+@utility type-5xl {
   font-size: var(--text-5xl);
 }
 
-.type-label {
+@utility type-label {
   font-family: var(--font-mono);
   font-size: var(--text-sm);
   line-height: var(--leading-normal);
@@ -283,70 +283,70 @@ a {
   text-transform: uppercase;
 }
 
-.font-mono-ibm {
+@utility font-mono-ibm {
   font-family: var(--font-ibm-plex-mono-stack);
 }
 
-.font-mono-google-sans-code {
+@utility font-mono-google-sans-code {
   font-family: var(--font-google-sans-code-stack);
   font-optical-sizing: auto;
 }
 
-.font-mono-dm {
+@utility font-mono-dm {
   font-family: var(--font-dm-mono-stack);
 }
 
-.font-serif-source {
+@utility font-serif-source {
   font-family: var(--font-source-serif-4-stack);
   font-optical-sizing: auto;
 }
 
-.font-serif-instrument {
+@utility font-serif-instrument {
   font-family: var(--font-instrument-serif-stack);
 }
 
-.font-serif {
+@utility font-serif {
   font-family: var(--font-serif);
   font-optical-sizing: auto;
 }
 
-.font-serif-display {
+@utility font-serif-display {
   font-family: var(--font-serif-display);
 }
 
-.type-leading-tight {
+@utility type-leading-tight {
   line-height: var(--leading-tight);
 }
 
-.type-leading-snug {
+@utility type-leading-snug {
   line-height: var(--leading-snug);
 }
 
-.type-leading-normal {
+@utility type-leading-normal {
   line-height: var(--leading-normal);
 }
 
-.type-leading-relaxed {
+@utility type-leading-relaxed {
   line-height: var(--leading-relaxed);
 }
 
-.type-tracking-tight {
+@utility type-tracking-tight {
   letter-spacing: var(--tracking-tight);
 }
 
-.type-tracking-normal {
+@utility type-tracking-normal {
   letter-spacing: var(--tracking-normal);
 }
 
-.type-tracking-wide {
+@utility type-tracking-wide {
   letter-spacing: var(--tracking-wide);
 }
 
-.type-tracking-wider {
+@utility type-tracking-wider {
   letter-spacing: var(--tracking-wider);
 }
 
-.type-tracking-widest {
+@utility type-tracking-widest {
   letter-spacing: var(--tracking-widest);
 }
 

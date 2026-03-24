@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useRef } from "react";
+import { useState, useRef, useCallback } from "react";
 import {
   RetinaCanvas,
   RetinaCanvasHandle,
@@ -97,7 +97,7 @@ export function HeroSection() {
     setTouchMode((prev) => (prev === "generate" ? "rotate" : "generate"));
   };
 
-  const handleZoomChange = (newZoom: number) => {
+  const handleZoomChange = useCallback((newZoom: number) => {
     console.log(
       "[zoom:HeroSection:handleZoomChange] newZoom:",
       newZoom,
@@ -106,12 +106,12 @@ export function HeroSection() {
     );
     setZoom(newZoom);
     canvasRef.current?.setZoom(newZoom);
-  };
+  }, []);
 
-  const handleCanvasZoomChange = (newZoom: number) => {
+  const handleCanvasZoomChange = useCallback((newZoom: number) => {
     console.log("[zoom:HeroSection:handleCanvasZoomChange] newZoom:", newZoom);
     setZoom(newZoom);
-  };
+  }, []);
 
   return (
     <section className="relative min-h-screen border-b border-border-subtle pt-24">

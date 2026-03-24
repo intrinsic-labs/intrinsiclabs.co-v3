@@ -1,0 +1,38 @@
+import Link from "next/link";
+
+export function ContactStrip() {
+  return (
+    <section id="contact" className="pb-28 pt-24 md:pb-36">
+      <div className="container-shell">
+        <div className="section-divider mb-9" />
+        <p className="section-label">Get In Touch</p>
+        <Link
+          href="mailto:helloworld@intrinsiclabs.co"
+          className="section-title mt-5 inline-block normal-case text-cream transition-colors hover:text-copper"
+        >
+          helloworld@intrinsiclabs.co
+        </Link>
+
+        <div className="mt-8 flex flex-wrap gap-4">
+          <Link
+            href="https://www.linkedin.com/in/asher-pope/"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="mono-chip"
+          >
+            LinkedIn ↗
+          </Link>
+          <Link
+            href="https://github.com/asherpope"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="mono-chip"
+          >
+            GitHub ↗
+          </Link>
+          <span className="mono-chip mono-chip-muted">Resume (soon)</span>
+        </div>
+      </div>
+    </section>
+  );
+}

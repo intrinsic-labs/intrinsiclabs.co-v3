@@ -111,12 +111,6 @@ export function HeroSection() {
       {/* Retina canvas background - fills section with vignette fade */}
       <div
         className="absolute inset-0"
-        style={{
-          maskImage:
-            "radial-gradient(ellipse 80% 80% at 60% 50%, black 30%, transparent 70%)",
-          WebkitMaskImage:
-            "radial-gradient(ellipse 80% 80% at 60% 50%, black 30%, transparent 70%)",
-        }}
       >
         <RetinaCanvas
           ref={canvasRef}
@@ -140,12 +134,12 @@ export function HeroSection() {
         </p>
 
         {/* Mobile: tappable controls */}
-        <div className="md:hidden mt-2 opacity-60 font-light space-y-1 pointer-events-auto">
+        <div className="md:hidden mt-2 type-xs opacity-60 font-light space-y-1 pointer-events-auto">
           <button
             onClick={toggleTouchMode}
             className="block text-left hover:opacity-85 active:opacity-100 transition-opacity"
           >
-            mode: {touchMode} [tap to switch]
+            mode: [{touchMode}] tap to switch
           </button>
           <div className="flex items-center gap-2">
             <span>zoom:</span>

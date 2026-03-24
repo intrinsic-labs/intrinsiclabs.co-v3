@@ -228,7 +228,7 @@ export const RetinaCanvas = forwardRef<RetinaCanvasHandle, RetinaCanvasProps>(
       ctx.clearRect(0, 0, rect.width, rect.height);
 
       const centerX = rect.width / 2;
-      const centerY = rect.height / 2;
+      const centerY = rect.height / 2.9;
       const baseScale = Math.min(rect.width, rect.height) / 600;
       const scale = baseScale * scaleRef.current;
 
@@ -379,6 +379,18 @@ export const RetinaCanvas = forwardRef<RetinaCanvasHandle, RetinaCanvasProps>(
       const handleTouchMove = (e: TouchEvent) => {
         if (e.touches.length === 1 && lastTouchPosRef.current) {
           const touch = e.touches[0];
+
+          // Ignore tiny movements (tap jitter) so taps don't animate
+          if (touchStartPosRef.current) {
+            const totalDx = Math.abs(
+              touch.clientX - touchStartPosRef.current.x,
+            );
+            const totalDy = Math.abs(
+              touch.clientY - touchStartPosRef.current.y,
+            );
+            if (totalDx < 10 && totalDy < 10) return;
+          }
+
           const dx = touch.clientX - lastTouchPosRef.current.x;
 
           if (touchModeRef.current === "generate") {

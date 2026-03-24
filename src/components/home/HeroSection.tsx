@@ -98,11 +98,18 @@ export function HeroSection() {
   };
 
   const handleZoomChange = (newZoom: number) => {
+    console.log(
+      "[zoom:HeroSection:handleZoomChange] newZoom:",
+      newZoom,
+      "canvasRef.current:",
+      !!canvasRef.current,
+    );
     setZoom(newZoom);
     canvasRef.current?.setZoom(newZoom);
   };
 
   const handleCanvasZoomChange = (newZoom: number) => {
+    console.log("[zoom:HeroSection:handleCanvasZoomChange] newZoom:", newZoom);
     setZoom(newZoom);
   };
 
@@ -136,7 +143,7 @@ export function HeroSection() {
 
         {/* Desktop: keyboard shortcuts */}
         <p className="hidden md:block mt-2 md:text-md opacity-60 font-light hover:opacity-85 transition-opacity">
-          rotate: [shift + scroll]  zoom: [+/-]  toggle colors: [c]
+          rotate: [shift + scroll] zoom: [+/-] toggle colors: [c]
         </p>
 
         {/* Mobile: tappable controls */}

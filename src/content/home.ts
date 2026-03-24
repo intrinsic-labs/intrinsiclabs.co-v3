@@ -6,7 +6,11 @@ export type HomeProject = {
   stack: string[];
   summary: string;
   href?: string;
-  viewportScene?: "wireframe-tree" | "wireframe-dog-head" | "wireframe-church";
+  viewportScene?:
+    | "wireframe-tree"
+    | "wireframe-dog-head"
+    | "wireframe-church"
+    | "wireframe-wifi";
 };
 
 export const homeProjects: HomeProject[] = [
@@ -38,6 +42,7 @@ export const homeProjects: HomeProject[] = [
     stack: ["React Native", "Salesforce", "Okta SSO"],
     summary:
       "A mobile-first replacement concept for legacy enterprise sales process tooling with faster field usage patterns.",
+    viewportScene: "wireframe-wifi",
   },
   {
     id: "004",

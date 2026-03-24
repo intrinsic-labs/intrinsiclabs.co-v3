@@ -110,8 +110,8 @@ export function WireframeChurch() {
         0.1,
         100,
       );
-      camera.position.set(0, 1.0, 9.2);
-      camera.lookAt(0, 1.2, 0);
+      camera.position.set(0, 0.8, 10.8);
+      camera.lookAt(0, 1.0, 0);
 
       const renderer = new THREE.WebGLRenderer({
         alpha: true,
@@ -148,7 +148,7 @@ export function WireframeChurch() {
       // Main rectangular chapel body
       {
         const geo = new THREE.BoxGeometry(1.85, 1.25, 1.65);
-        sampleInto(geo, mkMatrix(0, 0.625 + 0.07, 0), 78, pts);
+        sampleInto(geo, mkMatrix(0, 0.625 + 0.07, 0), 100, pts);
         geo.dispose();
       }
 
@@ -181,7 +181,7 @@ export function WireframeChurch() {
         const geo = new THREE.BufferGeometry();
         geo.setAttribute("position", new THREE.BufferAttribute(v, 3));
         geo.setIndex(idx);
-        sampleInto(geo, new THREE.Matrix4(), 52, pts);
+        sampleInto(geo, new THREE.Matrix4(), 110, pts);
         geo.dispose();
       }
 
@@ -191,7 +191,7 @@ export function WireframeChurch() {
       {
         const geo = new THREE.BoxGeometry(0.62, 2.7, 0.62);
         // centre at (0, 1.35, -0.51): front face at -0.51-0.31 = -0.82 ✓
-        sampleInto(geo, mkMatrix(0, 1.35, -0.51), 55, pts);
+        sampleInto(geo, mkMatrix(0, 1.35, -0.51), 80, pts);
         geo.dispose();
       }
 
@@ -199,16 +199,17 @@ export function WireframeChurch() {
       // Thin horizontal overhang band around the top of the tower
       {
         const geo = new THREE.BoxGeometry(0.72, 0.07, 0.72);
-        sampleInto(geo, mkMatrix(0, 2.7, -0.51), 16, pts);
+        sampleInto(geo, mkMatrix(0, 2.7, -0.51), 28, pts);
         geo.dispose();
       }
 
       /* ── STEEPLE / SPIRE ─────────────────────────────────── */
       // 4-sided pyramid — openEnded so we only sample the 4 sloped faces
       {
-        const geo = new THREE.CylinderGeometry(0, 0.38, 1.85, 4, 1, true);
+        const geo = new THREE.CylinderGeometry(0, 0.38, 1.85, 4, 3, true);
         // base at y=2.7, centre at 2.7 + 0.925
-        sampleInto(geo, mkMatrix(0, 3.625, -0.51), 40, pts);
+        // heightSegments=3 gives more triangles → denser, more even coverage
+        sampleInto(geo, mkMatrix(0, 3.625, -0.51), 90, pts);
         geo.dispose();
       }
 
@@ -217,11 +218,11 @@ export function WireframeChurch() {
         const tipY = 2.7 + 1.85; // = 4.55
         // vertical bar
         const vgeo = new THREE.BoxGeometry(0.065, 0.5, 0.065);
-        sampleInto(vgeo, mkMatrix(0, tipY + 0.25, -0.51), 14, pts);
+        sampleInto(vgeo, mkMatrix(0, tipY + 0.25, -0.51), 28, pts);
         vgeo.dispose();
         // horizontal bar
         const hgeo = new THREE.BoxGeometry(0.3, 0.065, 0.065);
-        sampleInto(hgeo, mkMatrix(0, tipY + 0.36, -0.51), 10, pts);
+        sampleInto(hgeo, mkMatrix(0, tipY + 0.36, -0.51), 20, pts);
         hgeo.dispose();
       }
 

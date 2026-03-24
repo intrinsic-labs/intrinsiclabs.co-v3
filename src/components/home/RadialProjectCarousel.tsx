@@ -7,6 +7,7 @@ import type { HomeProject } from "@/content/home";
 import { WireframeTree } from "./WireframeTree";
 import { WireframeDogHead } from "./WireframeDogHead";
 import { WireframeChurch } from "./WireframeChurch";
+import { WireframeWifi } from "./WireframeWifi";
 
 type RadialProjectCarouselProps = {
   projects: HomeProject[];
@@ -181,6 +182,9 @@ export function RadialProjectCarousel({
               )}
               {activeProject.viewportScene === "wireframe-church" && (
                 <WireframeChurch />
+              )}
+              {activeProject.viewportScene === "wireframe-wifi" && (
+                <WireframeWifi />
               )}
             </div>
 

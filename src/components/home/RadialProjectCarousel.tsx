@@ -71,7 +71,7 @@ function NavButtons({
         onClick={goPrev}
         disabled={!canGoPrev}
         aria-label="Previous project"
-        className="inline-flex h-10 lg:h-9 flex-1 items-center justify-center border border-border-visible text-cream transition-colors hover:border-copper hover:text-copper disabled:cursor-not-allowed disabled:opacity-35 disabled:hover:border-border-visible disabled:hover:text-cream"
+        className="inline-flex h-10 lg:h-9 flex-1 items-center justify-center border border-border-visible text-cream transition-colors hover:border-copper hover:text-copper disabled:cursor-not-allowed disabled:opacity-35 disabled:hover:border-border-visible disabled:hover:text-cream rounded-full"
       >
         <FiArrowLeft className="h-4 w-4" />
       </button>
@@ -80,7 +80,7 @@ function NavButtons({
         onClick={goNext}
         disabled={!canGoNext}
         aria-label="Next project"
-        className="inline-flex h-10 lg:h-9 flex-1 items-center justify-center border border-border-visible text-cream transition-colors hover:border-copper hover:text-copper disabled:cursor-not-allowed disabled:opacity-35 disabled:hover:border-border-visible disabled:hover:text-cream"
+        className="inline-flex h-10 lg:h-9 flex-1 items-center justify-center border border-border-visible text-cream transition-colors hover:border-copper hover:text-copper disabled:cursor-not-allowed disabled:opacity-35 disabled:hover:border-border-visible disabled:hover:text-cream rounded-full"
       >
         <FiArrowRight className="h-4 w-4" />
       </button>
@@ -117,7 +117,7 @@ function ProjectCard({
         {project.summary}
       </p>
 
-      <ul className="mt-4 flex flex-wrap gap-2">
+      <ul className="mt-4 flex flex-wrap gap-2 opacity-65">
         {project.stack.map((stackItem) => (
           <li
             key={stackItem}

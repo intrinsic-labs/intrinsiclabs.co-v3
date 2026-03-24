@@ -1,28 +1,31 @@
 ### The Problem
-Every major AI chat interface works the same way: a linear thread, one message after another, no way to explore alternatives or go back and try a different direction without losing context. But language models are probability spaces — the same prompt can produce wildly different responses. The linear chat format actively hides this, reducing a powerful tool to a single-path conversation.
+Most modern AI interfaces are a glorified iMessage spinoff. In some ways, this makes sense - linear conversation is an easy and intuitive way to relate to and work work LLMs. But the fact is that LLMs are **probability spaces** - they do not decide on a “right” answer and spit it out. They generate probabilities for millions of possible next words, then sample from that distribution to piece together their output. This means that running the same prompt multiple times yeilds different results - sometimes, wildy different - and pretending LLMs work in a linear fashion majorly limits their potential.
 
-I wanted to build something that makes that exploration first-class: branch, backtrack, compare alternatives, and build understanding through navigating a tree of possibilities.
+This issue has driven the community to create *[Loom Interfaces](https://www.latentspaces.app/blog/the-probable-beauty-of-llms)* - AI tools that let you explore many branching possibilities without losing the ability to go back. Many existing looms are rather hacked together and take some dev knowledge to get running, and although frontier labs have finally started adding branching functionality into their own proprietary apps, I wanted to create a mobile app that puts branching exploration front and center for anyone who picks it up. The design and experience of an interface tend to strongly influence what the user imagines to be possible, so having tree exploration be a primary feature instead of something bolted on was important to me.
 
 ### Architecture
-Aspen Grove is built on a **hypergraph-backed tree structure** where every conversation is a Loom Tree — nodes connected by directed hyperedges that support branching, annotation, and multi-source context assembly.
+Aspen Grove is built on a **hypergraph-backed tree structure** where every conversation is a Loom Tree - nodes connected by directed hyperedges that support branching, annotation, and multi-source context assembly.  
+
+Another key feature is the **provenance system**. I haven’t seen any AI apps with a focus on proving that a model response actually comes from where the user thinks it does. This is tough to implement fully without provider collaboration/API response signing, but I have taken the steps I can to start building towards a proveable, secure future.
 
 **Key design decisions:**
-- **Nodes are immutable.** Edits create new nodes with lineage tracking (`editedFrom`), preserving complete history. This isn't just a nice-to-have — it's foundational to the provenance system.
-- **Both humans and models are Agents.** Uniform treatment at the API level means a model configured for creative writing and the same model configured for analysis are separate agents with separate permissions. One model can back multiple agents.
-- **Provenance is tiered.** SHA-256 hash chains provide tamper evidence by default. RFC 3161 timestamp certificates prove existence at a specific time. Raw API responses are stored compressed for every model-generated node. The raw response hash is computed immediately upon receipt, before any parsing.
-- **Clean Architecture with four layers.** Domain knows nothing about persistence or UI. Application defines interfaces. Infrastructure implements them. TypeScript import rules enforce boundaries — this isn't just a guideline, it's automated.
-- **Loom-aware tools are parsed client-side.** Instead of registering tools through provider APIs (which creates conflicting guidance across providers), the `→ command` syntax is parsed entirely on the client. This ensures consistent behavior regardless of which LLM provider is being used.
+- **Nodes (messages) are immutable.** Edits create new nodes with lineage tracking, preserving complete history. This is foundational to the provenance system.
+- **Both humans and models are Agents in Aspen Grove.** Uniform treatment at the API level means a model configured for creative writing and the same model configured for analysis are separate agents with separate permissions. One model can back multiple agents. Models get access to **all** the same interface functionality the user does - another feature I haven’t seen in a mobile AI app.
+- **Provenance is tiered.** SHA-256 hash chains provide tamper evidence by default. RFC 3161 timestamp certificates prove existence at a specific time. Raw API responses are stored compressed for every model-generated node. The raw response hash is computed immediately upon receipt, before any parsing. In the future, hopefully we can get some model providers onboard to start signing their responses for true provenance functionality.
+- **Clean Architecture with four layers.** Uncle Bob would be proud. Domain knows nothing about persistence or UI, Application defines interfaces, and Infrastructure implements them. I also have TypeScript import rules enforce these boundaries so I can’t mess it up.
+- **LLM tools are parsed client-side.** Instead of registering tools through provider APIs, a new `→ command` syntax is parsed entirely on the client. LLMs can save context by letting a state machine handle the actual tool call and just specify what they need done in a simple one-line arrow command. This also ensures consistent behavior regardless of which LLM provider is being used.
+- It’s a complicated app, there are many more features, but at this point you might want to just start reading the documentation (GitHub link below)
 
 ### Stack
-React Native (Expo), TypeScript, WatermelonDB (SQLite-backed, lazy loading, observable queries), Clean Architecture
+React Native (Expo), TypeScript, WatermelonDB (SQLite-backed, lazy loading, observable queries), Clean Architecture, Supabase (user management in the future)
 
 ### What I Built
 - Complete domain model and specification (50+ pages of architectural documentation)
 - Hypergraph data model supporting branching exploration, annotations, and cross-tree knowledge linking
 - Context assembly algorithm with multiple truncation strategies (middle-truncate, rolling window, stop-at-limit)
-- Custom tool system for loom-aware model interaction
+- Custom tool system (look at [loom-aware model interactions](https://github.com/intrinsic-labs/aspen-grove/tree/main/docs/architecture/specs/loom-tools) in the docs, it’s pretty rad - *the model can navigate the loom tree*)
 - Provenance system with hash chains and RFC 3161 timestamp support
-- Multi-provider LLM abstraction layer
+- Multi-provider LLM abstraction layer with support for Anthropic, OpenAI, Openrouter, Hyperbolic, and more
 
 ### Status
-Open source. In active development. [GitHub →]
+Open source. In active development. [GitHub →](https://github.com/intrinsic-labs/aspen-grove)

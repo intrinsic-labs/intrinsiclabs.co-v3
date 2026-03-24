@@ -479,6 +479,9 @@ body {
   font-family: var(--font-mono);
   font-size: var(--text-sm);
   color: var(--color-cream);
+  padding: 2px 4px;
+  border-radius: 4px;;
+  background: color-mix(in srgb, var(--color-dark-charcoal) 90%, white);
 }
 
 .case-study-video {

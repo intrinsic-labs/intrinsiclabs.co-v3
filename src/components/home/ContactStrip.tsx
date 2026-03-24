@@ -28,7 +28,7 @@ export function ContactStrip() {
             LinkedIn ↗
           </Link>
           <Link
-            href="https://github.com/asherpope"
+            href="https://github.com/intrinsic-labs"
             target="_blank"
             rel="noopener noreferrer"
             className="mono-chip"

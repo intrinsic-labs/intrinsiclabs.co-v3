@@ -4,6 +4,7 @@ import Link from "next/link";
 import { useMemo, useState } from "react";
 import { FiArrowLeft, FiArrowRight } from "react-icons/fi";
 import type { HomeProject } from "@/content/home";
+import { WireframeTree } from "./WireframeTree";
 
 type RadialProjectCarouselProps = {
   projects: HomeProject[];
@@ -116,7 +117,6 @@ export function RadialProjectCarousel({
 
             {/* Arc labels: compact + rotated, no full-card overlap */}
             {arcLabels.map((item) => {
-
               return (
                 <button
                   key={item.project.id}
@@ -150,8 +150,7 @@ export function RadialProjectCarousel({
                         {item.project.id}
                       </span>
                       <span
-                        className=
-                          {`font-mono ${item.isFocused ? "type-lg font-bold" : "type-xs"} uppercase type-tracking-wider`}
+                        className={`font-mono ${item.isFocused ? "type-lg font-bold" : "type-xs"} uppercase type-tracking-wider`}
                       >
                         {item.project.name}
                       </span>
@@ -166,11 +165,17 @@ export function RadialProjectCarousel({
         {/* RIGHT: reserved viewport + focused project card */}
         <aside className="relative hidden md:block">
           <div className="absolute inset-8 grid grid-rows-[minmax(0,52%)_minmax(0,48%)] gap-4">
-            <div className="relative rounded-sm border border-border-subtle">
-              <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,color-mix(in_srgb,var(--color-cream)_7%,transparent),transparent_68%)]" />
-              <div className="absolute left-4 top-4 mono-label type-2xs text-ink-dim">
-                OBJECT_VIEWPORT // RESERVED
-              </div>
+            <div className="relative rounded-sm overflow-hidden">
+              {/*<div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,color-mix(in_srgb,var(--color-cream)_7%,transparent),transparent_68%)]" />*/}
+              {/*<div className="absolute left-4 top-4 z-10 mono-label type-2xs text-ink-dim">
+                OBJECT_VIEWPORT //{" "}
+                {activeProject.viewportScene
+                  ? activeProject.name.toUpperCase()
+                  : "RESERVED"}
+              </div>*/}
+              {activeProject.viewportScene === "wireframe-tree" && (
+                <WireframeTree />
+              )}
             </div>
 
             <article className="border-r border-cream/25 pl-5 pr-3 py-4 text-cream">

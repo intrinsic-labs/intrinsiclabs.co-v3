@@ -35,7 +35,14 @@ export function ContactStrip() {
           >
             GitHub ↗
           </Link>
-          <span className="mono-chip mono-chip-muted">Resume (soon)</span>
+          <Link
+            href="/W_ASHER_POPE_Resume_20260325.pdf"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="mono-chip"
+          >
+            Resume ↗
+          </Link>
         </div>
       </div>
     </section>

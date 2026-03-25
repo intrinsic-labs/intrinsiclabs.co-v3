@@ -18,12 +18,12 @@ export type HomeProject = {
 export const homeProjects: HomeProject[] = [
   {
     id: "001",
-    status: "Live",
+    status: "In Progress",
     name: "Aspen Grove",
     subtitle: "LLM Interface + Knowledge Tool",
     stack: ["React Native", "WatermelonDB", "Offline-first sync"],
     summary:
-      "Exploration-first AI interface focused on preserving context, branchable reasoning, and practical model control.",
+      "An LLM interface that treats conversations as explorable trees, not linear chats",
     caseStudySlug: "aspen-grove",
     viewportScene: "wireframe-tree",
   },
@@ -35,7 +35,7 @@ export const homeProjects: HomeProject[] = [
     stack: ["Next.js", "Internationalization", "Payment workflow"],
     summary:
       "Client platform focused on conversion and long-term maintainability across multiple locales and service offerings.",
-    // caseStudySlug: "dog-body-mind",
+    caseStudySlug: "dog-body-mind",
     viewportScene: "wireframe-dog-head",
   },
   {

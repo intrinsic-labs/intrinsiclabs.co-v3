@@ -1,15 +1,35 @@
-## Overview
+### The Problem
+My client runs a dog fitness education business and needed a platform to deliver video-based exercise content to dog owners worldwide via a mobile app. The content is highly structured (exercises have steps, each step has videos, troubleshooting flows, and equipment references) and needs to be available in six languages (with ability to expand). The app will be used in the field where connectivity isn't guaranteed. And the client needs a user friendly way to manage all of this content without calling me.
 
-Drop your full case-study markdown here.
+### Architecture
+This is a **multi-service system** where each service handles what it's best at:
 
-## Problem
+- **Sanity CMS** owns localized content (titles, descriptions, step text in 6 languages). The client manages all content through Sanity's editing interface — publish triggers cache revalidation via webhook.
+- **Supabase (Postgres)** owns relational metadata (exercise eligibility rules, level progression, user data, subscription status). Row-Level Security gates content by subscription tier.
+- **Mux** handles video streaming with adaptive bitrate and just-in-time encoding.
+- **RevenueCat** unifies iOS and Android subscription billing.
 
-Describe the product and business context.
+The **website** uses Next.js with ccTLD-based domain routing and a proxy layer for subdirectory internationalization — each language gets its own country-code domain, but it's all one deployment.
 
-## Approach
+The **mobile app** (React Native/Expo) includes a custom algorithm engine that composes training sessions based on the dog's age, weight classification, body condition, and training history. The algorithm is versioned — ruleset constants are separate from logic implementation, so the client can tune difficulty progression without code changes.
 
-Describe IA, architecture, implementation choices, and rollout details.
+The **API layer** is 20 endpoints deployed as Supabase Edge Functions, covering onboarding, session composition/lifecycle, body condition check-ins, ruleset management, and an offline sync pipeline with idempotent event reconciliation.
 
-## Outcomes
+**Key design decisions:**
+- **Content/metadata split.** Sanity is great at localized rich text editing and editorial workflow. Postgres is great at relational queries like "find all exercises for Beginner 2 targeting rear hips that don't require equipment." Trying to do both in one system would compromise both.
+- **Algorithm versioning.** Separating ruleset constants from logic means the client can adjust training volume thresholds without a code deploy. Each user session records which algorithm version and ruleset version produced it — important for the client's research credibility.
+- **Offline-first mobile.** Dog owners use this in gyms and outdoors. Exercise metadata syncs to a local database. Progress tracks locally and reconciles when online. Video can be downloaded for offline playback with configurable cache limits.
 
-Include any metrics, conversion lift, or operational improvements.
+### Stack
+**Web:** `Next.js, Sanity CMS, Tailwind CSS, Vercel`  
+**Mobile:** `React Native (Expo), TypeScript, expo-sqlite`  
+**Backend:** `Supabase (Postgres), Edge Functions (Deno/TypeScript), Mux, RevenueCat`  
+**Languages:** `English (US), English (UK), Spanish, French, German, Italian`
+
+### What I Built
+Everything. Sole developer on all layers — database schema and migrations, API endpoints, CMS configuration, website with internationalization routing, mobile app architecture, algorithm engine, admin dashboard. 12+ month engagement with a paying client, built through close collaboration translating domain expertise (dog fitness science) into software architecture.
+
+### Status
+In development. [Website live with all 6 languages](https://dogbodymind.com/) (content still in the works - but the plumbing is built). API complete (20 endpoints). Mobile app in final UI phase. Paid client engagement, 12+ months.
+
+*Architecture details available on request — project is under client confidentiality.*

@@ -89,7 +89,7 @@ function ProjectCard({
       </div>
 
       <div className="hidden lg:block lg:mt-4">
-        <h3 className="font-mono font-bold type-2xl lg:type-3xl uppercase type-tracking-wider text-ink bg-cream-deep px-4">
+        <h3 className="font-mono font-bold type-2xl lg:type-3xl uppercase  text-cream">
           {project.name}
         </h3>
         <p className="lg:mt-1 type-sm text-blue-400">{project.subtitle}</p>

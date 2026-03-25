@@ -12,7 +12,7 @@ export function AboutLayout({ title, subtitle, children }: AboutLayoutProps) {
     <section className="section-spacing pb-[clamp(5rem,8vw,8rem)]">
       <div className="container-shell">
         <header className="border-b border-border-subtle pb-6">
-          <p className="mono-label type-xs text-copper text-center border border-copper rounded-full flex justify-center w-fit mx-auto px-3 py-1">
+          <p className="mono-label type-xs text-cream-muted text-center border border-cream-muted rounded-full flex justify-center w-fit mx-auto px-3 py-1">
             About
           </p>
           <h1 className="mt-3 font-mono type-3xl lg:type-5xl type-tracking-tight type-leading-snug py-2 lg:py-0 text-cream text-center">
@@ -22,7 +22,7 @@ export function AboutLayout({ title, subtitle, children }: AboutLayoutProps) {
 
           <Link
             href="/#about"
-            className="mt-12 block text-center mono-label type-xs text-cream-muted transition-colors hover:text-cream"
+            className="mt-12 block text-center mono-label type-xs text-copper transition-colors hover:text-cream"
           >
             ← Back To Home
           </Link>
@@ -33,7 +33,7 @@ export function AboutLayout({ title, subtitle, children }: AboutLayoutProps) {
         <div className="border-t border-border-subtle mt-16" />
         <Link
           href="/#about"
-          className="mt-12 block text-center mono-label type-xs text-cream-muted transition-colors hover:text-cream"
+          className="mt-12 block text-center mono-label type-xs text-copper transition-colors hover:text-cream"
         >
           ← Back To Home
         </Link>

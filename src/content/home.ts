@@ -35,7 +35,7 @@ export const homeProjects: HomeProject[] = [
     stack: ["Next.js", "Internationalization", "Payment workflow"],
     summary:
       "Client platform focused on conversion and long-term maintainability across multiple locales and service offerings.",
-    caseStudySlug: "dog-body-mind",
+    // caseStudySlug: "dog-body-mind",
     viewportScene: "wireframe-dog-head",
   },
   {
@@ -56,7 +56,7 @@ export const homeProjects: HomeProject[] = [
     stack: ["Android", "Kotlin", "Elo touch kiosks"],
     summary:
       "Operational software for event check-in and on-site flow, designed for reliability in real-world physical environments.",
-    caseStudySlug: "church-ops",
+    // caseStudySlug: "church-ops",
     viewportScene: "wireframe-church",
   },
 ];

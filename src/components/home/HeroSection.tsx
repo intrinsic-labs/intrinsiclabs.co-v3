@@ -122,7 +122,7 @@ export function HeroSection() {
         <p className="hero-title text-cream-muted lg:whitespace-nowrap">
           {"INTRINSIC LABS"}
         </p>
-        <h1 className="hero-heading underline text-blue-400">
+        <h1 className="hero-heading text-blue-400">
           Asher Pope, Engineer
         </h1>
 
@@ -132,7 +132,7 @@ export function HeroSection() {
         </p>
 
         {/* Mobile: tappable controls */}
-        <div className="lg:hidden mt-2 type-xs opacity-60 font-light space-y-1 pointer-events-auto">
+        <div className="md:hidden mt-2 type-xs opacity-60 font-light space-y-1 pointer-events-auto">
           <button
             onClick={toggleTouchMode}
             className="block text-left hover:opacity-85 active:opacity-100 transition-opacity"

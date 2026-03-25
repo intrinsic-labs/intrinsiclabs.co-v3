@@ -6,10 +6,7 @@ import { FiArrowLeft, FiArrowRight } from "react-icons/fi";
 import { getCaseStudyHref } from "@/content/case-studies/registry";
 import type { HomeProject } from "@/content/home";
 import { FitText } from "@/components/FitText";
-import { WireframeTree } from "./WireframeTree";
-import { WireframeDogHead } from "./WireframeDogHead";
-import { WireframeChurch } from "./WireframeChurch";
-import { WireframeWifi } from "./WireframeWifi";
+import { ViewportScene } from "@/components/shared/ViewportScene";
 
 type RadialProjectCarouselProps = {
   projects: HomeProject[];
@@ -37,21 +34,6 @@ function clamp(value: number, min: number, max: number) {
 }
 
 /* ── Shared sub-components ─────────────────────────────────────────── */
-
-function ViewportScene({ scene }: { scene?: HomeProject["viewportScene"] }) {
-  switch (scene) {
-    case "wireframe-tree":
-      return <WireframeTree />;
-    case "wireframe-dog-head":
-      return <WireframeDogHead />;
-    case "wireframe-church":
-      return <WireframeChurch />;
-    case "wireframe-wifi":
-      return <WireframeWifi />;
-    default:
-      return null;
-  }
-}
 
 function NavButtons({
   canGoPrev,
@@ -234,7 +216,7 @@ export function RadialProjectCarousel({
        ═══════════════════════════════════════════════════════════════ */}
       <div className="container-shell block lg:hidden">
         {/* Wireframe scene — explicit min-h + key forces remount per project */}
-        <p className="section-label text-xs italic opacity-65">~/projects</p>
+        <p className="section-label text-xs opacity-65">~/projects</p>
         <div
           key={activeProject.id}
           className="relative w-full overflow-hidden rounded-sm mt-3"
@@ -284,7 +266,7 @@ export function RadialProjectCarousel({
         {/* LEFT: radial labels */}
         <div className="relative grid h-full grid-rows-[auto_minmax(0,1fr)] py-16">
           <header className="mb-8 max-w-2xl">
-            <p className="section-label text-sm italic">~/projects</p>
+            <p className="section-label text-sm ">~/projects</p>
           </header>
 
           <div className="relative h-full overflow-hidden">

@@ -21,24 +21,10 @@ const inter = Inter({
   display: "swap",
 });
 
-const ibmPlexMono = IBM_Plex_Mono({
-  subsets: ["latin"],
-  variable: "--font-ibm-plex-mono",
-  weight: ["300", "400", "500", "700"],
-  display: "swap",
-});
-
 const cardo = Cardo({
   subsets: ["latin"],
   variable: "--font-cardo",
   weight: ["400", "700"],
-  display: "swap",
-});
-
-const sourceCodePro = Source_Code_Pro({
-  subsets: ["latin"],
-  variable: "--font-source-code-pro",
-  weight: ["300", "400", "500", "600", "700"],
   display: "swap",
 });
 
@@ -49,27 +35,6 @@ const jetBrainsMono = JetBrains_Mono({
   display: "swap",
 });
 
-const sourceSerif4 = Source_Serif_4({
-  subsets: ["latin"],
-  variable: "--font-source-serif-4",
-  weight: ["200", "300", "400", "500", "600", "700", "800", "900"],
-  display: "swap",
-});
-
-const dmMono = DM_Mono({
-  subsets: ["latin"],
-  variable: "--font-dm-mono",
-  weight: ["300", "400", "500"],
-  display: "swap",
-});
-
-const googleSansCode = Google_Sans_Code({
-  subsets: ["latin"],
-  variable: "--font-google-sans-code",
-  weight: ["300", "400", "500", "600", "700", "800"],
-  display: "swap",
-  adjustFontFallback: false,
-});
 
 const instrumentSerif = Instrument_Serif({
   subsets: ["latin"],
@@ -92,7 +57,7 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${inter.variable} ${ibmPlexMono.variable} ${sourceSerif4.variable} ${dmMono.variable} ${googleSansCode.variable} ${instrumentSerif.variable} ${sourceCodePro.variable} ${jetBrainsMono.variable} ${cardo.variable}`}
+      className={`${inter.variable} ${instrumentSerif.variable} ${jetBrainsMono.variable} ${cardo.variable}`}
     >
       <body className="site-shell">
         <main className="flex-1">{children}</main>

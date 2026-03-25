@@ -6,7 +6,7 @@ export function ContactStrip() {
     <section id="contact" className="pb-28 pt-24 lg:pb-36">
       <div className="container-shell border-t border-border-subtle">
         <div className="section-divider mb-9" />
-        <p className="section-label italic opacity-60 lg:opacity-100 text-xs lg:text-sm">
+        <p className="section-label opacity-60 lg:opacity-100 text-xs lg:text-sm">
           ~/get-in-touch
         </p>
         <Link

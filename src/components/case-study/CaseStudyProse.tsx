@@ -5,5 +5,5 @@ type CaseStudyProseProps = {
 };
 
 export function CaseStudyProse({ children }: CaseStudyProseProps) {
-  return <article className="case-study-prose font-cardo mx-auto type-leading-snug">{children}</article>;
+  return <article className="case-study-prose font-inter mx-auto type-leading-snug">{children}</article>;
 }

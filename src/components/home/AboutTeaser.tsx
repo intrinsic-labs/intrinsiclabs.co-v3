@@ -8,7 +8,7 @@ export function AboutTeaser() {
         <div className="section-divider" />
         <div className="mt-10 grid gap-8 lg:grid-cols-[2fr_1fr] lg:items-end">
           <div>
-            <p className="section-label italic opacity-60 lg:opacity-100 text-xs lg:text-sm">
+            <p className="section-label opacity-60 lg:opacity-100 text-xs lg:text-sm">
               ~/about
             </p>
             <p className="mt-5 max-w-3xl type-lg type-leading-snug lg:type-leading-normal text-cream">

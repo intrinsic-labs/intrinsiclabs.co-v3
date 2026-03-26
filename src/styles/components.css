@@ -1,0 +1,138 @@
+.mono-chip {
+  border: 1px solid var(--color-border-visible);
+  /*border-radius: 999px;*/
+  padding: 0.55rem 0.95rem;
+  font-family: var(--font-mono);
+  letter-spacing: var(--tracking-wider);
+  line-height: var(--leading-normal);
+  text-transform: uppercase;
+  font-size: var(--text-xs);
+  color: var(--color-cream);
+  transition:
+    border-color 0.25s ease,
+    color 0.25s ease,
+    transform 0.25s ease,
+    background-color 0.25s ease;
+}
+
+.mono-chip:hover {
+  transform: translateY(-1px);
+  border-color: color-mix(in srgb, var(--color-copper) 70%, transparent);
+  color: var(--color-copper);
+  background: color-mix(in srgb, var(--color-copper) 10%, transparent);
+}
+
+.mono-chip-muted {
+  color: var(--color-ink-dim);
+  border-color: var(--color-border-subtle);
+}
+
+.case-study-prose {
+  max-width: 65ch;
+  /*font-weight: 300;*/
+  font-family: var(--font-cardo-stack);
+  font-size: calc(var(--text-md) * var(--cardo-scale));
+}
+
+.case-study-prose > * + * {
+  margin-top: 1.25rem;
+}
+
+.case-study-prose :where(h2, h3, h4) {
+  font-family: var(--font-mono);
+  line-height: var(--leading-snug);
+  letter-spacing: var(--tracking-tight);
+  color: var(--color-cream);
+  font-weight: 300;
+}
+
+.case-study-prose h2 {
+  margin-top: 2.25rem;
+  font-size: clamp(var(--text-xl), 2.5vw, var(--text-3xl));
+}
+
+.case-study-prose h3 {
+  margin-top: 1.75rem;
+  font-size: clamp(var(--text-lg), 2vw, var(--text-2xl));
+}
+
+.case-study-prose p,
+.case-study-prose li {
+  color: var(--color-cream-muted);
+  font-size: calc(var(--text-md) * var(--cardo-scale));
+}
+
+.case-study-prose ul,
+.case-study-prose ol {
+  margin: 1.25rem 0;
+  padding-left: 1.25rem;
+}
+
+.case-study-prose ul {
+  list-style: disc;
+}
+
+.case-study-prose ol {
+  list-style: decimal;
+}
+
+.case-study-prose li + li {
+  margin-top: 0.45rem;
+}
+
+.case-study-prose a {
+  color: var(--color-copper);
+  text-decoration: underline;
+  text-decoration-color: color-mix(
+    in srgb,
+    var(--color-copper) 55%,
+    transparent
+  );
+  text-underline-offset: 0.16em;
+}
+
+.case-study-prose a:hover {
+  color: var(--color-cream);
+}
+
+.case-study-prose img {
+  display: block;
+  width: 100%;
+  height: auto;
+  margin: 1.5rem 0;
+  border: 1px solid var(--color-border-visible);
+}
+
+.case-study-prose pre {
+  overflow-x: auto;
+  border: 1px solid var(--color-border-subtle);
+  background: color-mix(in srgb, var(--color-dark-charcoal) 72%, black);
+  padding: 0.9rem 1rem;
+}
+
+.case-study-prose code {
+  font-family: var(--font-mono);
+  font-size: var(--text-sm);
+  color: var(--color-cream);
+  padding: 2px 4px;
+  border-radius: 4px;
+  background: color-mix(in srgb, var(--color-dark-charcoal) 90%, white);
+}
+
+.case-study-video {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  overflow: hidden;
+  border: 1px solid var(--color-border-visible);
+  background: color-mix(in srgb, var(--color-dark-charcoal) 86%, black);
+  margin: 1.5rem 0;
+}
+
+.case-study-video iframe {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  border: 0;
+}

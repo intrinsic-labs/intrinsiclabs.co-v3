@@ -1,0 +1,20 @@
+.debug {
+  outline: 1px solid red;
+}
+
+.site-shell {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.container-shell {
+  width: 100%;
+  max-width: 88rem;
+  margin-inline: auto;
+  padding-inline: clamp(1rem, 2.2vw, 2rem);
+}
+
+.section-spacing {
+  padding-top: clamp(5rem, 8vw, 9rem);
+}

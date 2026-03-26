@@ -1,0 +1,86 @@
+@theme {
+  --font-sans: var(--font-mono-active);
+  --font-mono: var(--font-mono-active);
+  --font-instrument-serif-stack:
+    var(--font-instrument-serif), "Instrument Serif", "Times New Roman", serif;
+  --font-cardo-stack: var(--font-cardo), "Cardo", "Times New Roman", serif;
+
+  --font-serif: var(--font-serif-active);
+  --font-serif-display: var(--font-serif-display-active);
+
+  --color-dark-grey: #000000;
+  --color-dark-charcoal: #12121e;
+  --color-dark-steel: #1a1a2a;
+
+  --color-cream: #e4ddd3;
+  --color-cream-muted: #d4cec5;
+  --color-cream-deep: #c6beb4;
+
+  --color-ink: #181713;
+  --color-ink-soft: #2a2722;
+  --color-ink-muted: #4a433b;
+  --color-ink-dim: #756d63;
+
+  --color-copper: #c49a6c;
+  --color-copper-deep: #8c5f30;
+  --color-copper-dark: #6f4419;
+
+  --color-wire: #d6d3ce;
+  --color-status-live: #2f7a5a;
+  --color-status-progress: #8a5a1f;
+
+  /* Compatibility aliases while we iterate */
+  --color-bg-primary: var(--color-dark-grey);
+  --color-bg-secondary: var(--color-dark-charcoal);
+  --color-bg-tertiary: var(--color-dark-steel);
+  --color-text-primary: var(--color-cream);
+  --color-text-secondary: var(--color-cream-muted);
+  --color-text-muted: var(--color-ink-dim);
+  --color-text-accent: var(--color-copper);
+  --color-border-subtle: color-mix(in srgb, var(--color-cream) 8%, transparent);
+  --color-border-visible: color-mix(
+    in srgb,
+    var(--color-cream) 16%,
+    transparent
+  );
+}
+
+:root {
+  --font-mono-active: var(--font-jetbrains-mono);
+
+  --font-serif-active: var(--font-instrument-serif-stack);
+
+  --font-serif-display-active: var(--font-instrument-serif-stack);
+
+  /* Cardo optical-size compensation (renders smaller than mono at same px) */
+  --cardo-scale: 1.05;
+
+  /* Typography scale (minor third, 1.2 ratio) */
+  --type-scale-ratio: 1.2;
+  --type-base: 1.25rem;
+  --type-size-factor: calc(var(--type-base) / 1rem);
+
+  --text-2xs: calc(var(--type-base) / 1.728);
+  --text-xs: calc(var(--type-base) / 1.44);
+  --text-sm: calc(var(--type-base) / 1.2);
+  --text-md: var(--type-base);
+  --text-lg: calc(var(--type-base) * 1.2);
+  --text-xl: calc(var(--type-base) * 1.44);
+  --text-2xl: calc(var(--type-base) * 1.728);
+  --text-3xl: calc(var(--type-base) * 2.074);
+  --text-4xl: calc(var(--type-base) * 2.488);
+  --text-5xl: calc(var(--type-base) * 2.986);
+
+  /* Line-height rhythm tokens (scaled from type base) */
+  --leading-tight: calc(0.75 * var(--type-size-factor));
+  --leading-snug: calc(1.15 * var(--type-size-factor));
+  --leading-normal: calc(1.35 * var(--type-size-factor));
+  --leading-relaxed: calc(1.7 * var(--type-size-factor));
+
+  /* Letter-spacing rhythm tokens (scaled from type base) */
+  --tracking-tight: calc(-0.01em * var(--type-size-factor));
+  --tracking-normal: 0;
+  --tracking-wide: calc(0.04em * var(--type-size-factor));
+  --tracking-wider: calc(0.08em * var(--type-size-factor));
+  --tracking-widest: calc(0.12em * var(--type-size-factor));
+}

@@ -11,7 +11,7 @@ export function AboutLayout({ title, subtitle, children }: AboutLayoutProps) {
   return (
     <section className="section-spacing pb-[clamp(5rem,8vw,8rem)]">
       <div className="container-shell">
-        <header className="border-b border-border-subtle pb-6">
+        <header className="pb-6">
           <p className="mono-label type-xs text-cream-muted text-center border border-cream-muted flex justify-center w-fit mx-auto px-3 py-1 opacity-65 rounded-full">
             About
           </p>

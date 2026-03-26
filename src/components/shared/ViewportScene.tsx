@@ -4,7 +4,7 @@ import { WireframeTree } from "@/components/home/WireframeTree";
 import { WireframeDogHead } from "@/components/home/WireframeDogHead";
 import { WireframeChurch } from "@/components/home/WireframeChurch";
 import { WireframeWifi } from "@/components/home/WireframeWifi";
-import type { ViewportSceneId } from "@/components/shared/viewportSceneMap";
+import type { ViewportSceneId } from "@/content/home";
 
 export type { ViewportSceneId };
 

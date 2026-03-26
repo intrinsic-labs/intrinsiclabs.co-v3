@@ -1,10 +1,4 @@
-import { homeProjects } from "@/content/home";
-
-export type ViewportSceneId =
-  | "wireframe-tree"
-  | "wireframe-dog-head"
-  | "wireframe-church"
-  | "wireframe-wifi";
+import { homeProjects, type ViewportSceneId } from "@/content/home";
 
 /**
  * Maps a case-study slug to its corresponding wireframe scene.

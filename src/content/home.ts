@@ -1,3 +1,9 @@
+export type ViewportSceneId =
+  | "wireframe-tree"
+  | "wireframe-dog-head"
+  | "wireframe-church"
+  | "wireframe-wifi";
+
 export type HomeProject = {
   id: string;
   status: "Live" | "In Progress";
@@ -6,11 +12,7 @@ export type HomeProject = {
   stack: string[];
   summary: string;
   caseStudySlug?: string;
-  viewportScene?:
-    | "wireframe-tree"
-    | "wireframe-dog-head"
-    | "wireframe-church"
-    | "wireframe-wifi";
+  viewportScene?: ViewportSceneId;
 };
 
 export const homeProjects = [

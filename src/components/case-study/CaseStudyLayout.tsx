@@ -22,7 +22,7 @@ export function CaseStudyLayout({
     <section className="section-spacing pb-[clamp(5rem,8vw,8rem)]">
       <div className="container-shell">
         <header className="pb-6">
-          <p className="mono-label type-xs text-cream-muted text-center border border-cream-muted flex justify-center w-fit mx-auto px-3 py-1 opacity-65">
+          <p className="mono-label type-xs text-cream-muted text-center border border-cream-muted flex justify-center w-fit mx-auto px-3 py-1 opacity-65 rounded-full">
             Case Study
           </p>
           <h1 className="mt-3 font-mono type-4xl lg:type-5xl type-tracking-tight type-leading-snug py-2 lg:py-0 text-cream text-center font-bold">

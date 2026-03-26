@@ -6,6 +6,7 @@ import { WireframeDogHead } from "@/components/home/WireframeDogHead";
 import { WireframeChurch } from "@/components/home/WireframeChurch";
 import { WireframeWifi } from "@/components/home/WireframeWifi";
 import { WireframeBible } from "@/components/home/WireframeBible";
+import { WireframeTotalStation } from "@/components/home/WireframeTotalStation";
 import type { ViewportSceneId } from "@/components/shared/sceneRegistry";
 
 export type { ViewportSceneId } from "@/components/shared/sceneRegistry";
@@ -16,6 +17,7 @@ const viewportSceneComponentById: Record<ViewportSceneId, ComponentType> = {
   "wireframe-church": WireframeChurch,
   "wireframe-wifi": WireframeWifi,
   "wireframe-bible": WireframeBible,
+  "wireframe-total-station": WireframeTotalStation,
 };
 
 export function ViewportScene({ scene }: { scene?: ViewportSceneId }) {

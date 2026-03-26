@@ -4,6 +4,7 @@ export const viewportSceneIds = [
   "wireframe-church",
   "wireframe-wifi",
   "wireframe-bible",
+  "wireframe-total-station",
 ] as const;
 
 export type ViewportSceneId = (typeof viewportSceneIds)[number];

@@ -127,7 +127,7 @@ export function HeroSection() {
         </h1>
 
         {/* Desktop: keyboard shortcuts */}
-        <p className="hidden lg:block mt-2 lg:text-md opacity-60 font-light hover:opacity-85 transition-opacity">
+        <p className="hidden lg:block mt-1 lg:text-sm opacity-60 font-light hover:opacity-85 transition-opacity">
           rotate: [shift + scroll] zoom: [+/-] toggle colors: [c]
         </p>
 

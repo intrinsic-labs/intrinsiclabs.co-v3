@@ -1,5 +1,3 @@
-import type { CaseStudySlug } from "@/content/case-studies/types";
-
 export type HomeProject = {
   id: string;
   status: "Live" | "In Progress";
@@ -7,7 +5,7 @@ export type HomeProject = {
   subtitle: string;
   stack: string[];
   summary: string;
-  caseStudySlug?: CaseStudySlug;
+  caseStudySlug?: string;
   viewportScene?:
     | "wireframe-tree"
     | "wireframe-dog-head"
@@ -15,7 +13,7 @@ export type HomeProject = {
     | "wireframe-wifi";
 };
 
-export const homeProjects: HomeProject[] = [
+export const homeProjects = [
   {
     id: "001",
     status: "In Progress",
@@ -32,20 +30,21 @@ export const homeProjects: HomeProject[] = [
     status: "Live",
     name: "Dog Body Mind",
     subtitle: "Multilingual Fitness Platform",
-    stack: ["Next.js", "Internationalization", "Payment workflow"],
+    stack: ["React Native", "Internationalization", "Next.js"],
     summary:
-      "Client platform focused on conversion and long-term maintainability across multiple locales and service offerings.",
+      "A multi-language fitness platform for dog owners - web, mobile, and admin dashboard - serving content in 6 languages",
     caseStudySlug: "dog-body-mind",
     viewportScene: "wireframe-dog-head",
   },
   {
     id: "003",
     status: "In Progress",
-    name: "GFBR",
+    name: "GFBR (prototype)",
     subtitle: "Enterprise Sales Mobile App",
-    stack: ["React Native", "Salesforce", "Okta SSO"],
+    stack: ["React Native", "Salesforce", "Expo SQLite"],
     summary:
-      "A mobile-first replacement concept for legacy enterprise sales process tooling with faster field usage patterns.",
+      "A mobile app prototype to replace Salesforce Mobile for GFiber's door-to-door sales team",
+    caseStudySlug: "gfbr",
     viewportScene: "wireframe-wifi",
   },
   {
@@ -53,13 +52,13 @@ export const homeProjects: HomeProject[] = [
     status: "Live",
     name: "Church Ops",
     subtitle: "Check-In + Kiosk Stack",
-    stack: ["Android", "Kotlin", "Elo touch kiosks"],
+    stack: ["iOS", "Android", "Elo touch kiosks", "PostgreSQL"],
     summary:
-      "Operational software for event check-in and on-site flow, designed for reliability in real-world physical environments.",
-    // caseStudySlug: "church-ops",
+      "Custom-built operations tools for a 2,000-member church, from hardware kiosks to attendance tracking.",
+    caseStudySlug: "church-ops",
     viewportScene: "wireframe-church",
   },
-];
+] as const satisfies readonly HomeProject[];
 
 export const aboutTeaser =
   'I\'m a self taught software engineer. I firmly believe you can learn anything if you just sit down and work at it. I got tired of wishing apps would "just do this one thing", so I learned to code (pre-ChatGPT). I study the top players in a space, learn why they do things the way they do, then go and build cool stuff that can hold its own.';

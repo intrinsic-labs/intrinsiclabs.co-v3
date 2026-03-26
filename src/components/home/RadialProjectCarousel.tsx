@@ -3,13 +3,16 @@
 import Link from "next/link";
 import { useEffect, useMemo, useRef, useState } from "react";
 import { FiArrowLeft, FiArrowRight } from "react-icons/fi";
-import { getCaseStudyHref } from "@/content/case-studies/registry";
+import {
+  getCaseStudyHref,
+  isCaseStudySlug,
+} from "@/content/case-studies/registry";
 import type { HomeProject } from "@/content/home";
 import { FitText } from "@/components/FitText";
 import { ViewportScene } from "@/components/shared/ViewportScene";
 
 type RadialProjectCarouselProps = {
-  projects: HomeProject[];
+  projects: readonly HomeProject[];
   className?: string;
 };
 
@@ -111,7 +114,7 @@ function ProjectCard({
       </ul>
 
       <div className="mt-5">
-        {project.caseStudySlug ? (
+        {project.caseStudySlug && isCaseStudySlug(project.caseStudySlug) ? (
           <Link
             href={getCaseStudyHref(project.caseStudySlug)}
             className="mono-label type-xs text-copper transition-colors hover:text-copper-deep"

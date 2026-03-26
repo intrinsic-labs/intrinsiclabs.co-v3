@@ -1,15 +1,29 @@
-## Overview
+### Links
+[GitHub → Global Missions Kiosk](https://github.com/intrinsic-labs/CCC-SouthLobbyDisplay)  
+[GitHub → Check Right In (iOS client)](https://github.com/intrinsic-labs/new-members-check-in)  
+[GitHub → Check Right In (Admin Dashboard)](https://github.com/intrinsic-labs/new-members-admin)
 
-Drop your full case-study markdown here.
+### The Problem
+Christ Covenant Church in Matthews, NC needed two things: a way for their congregation to explore their global missions program interactively, and a way to track attendance for new member classes (previously managed with paper for 85+ attendees per class).
 
-## Problem
+Commercial solutions existed but were expensive, inflexible, and couldn't be customized to the church's specific vision and workflows.
 
-Describe the operational constraints and user flows.
+### What I Built
 
-## Approach
+**Global Missions Kiosk:**
+A native Android app (Kotlin, Jetpack Compose) deployed on two Elo 4304L 43" interactive touchscreens managed via EloView. Displays an interactive map of missionaries with profiles, prayer requests, and real-time updates. Content is backed by Airtable so church staff can update missionary information without developer involvement.
 
-Describe platform architecture, kiosk constraints, and reliability choices.
+I managed the full lifecycle: hardware procurement, EloView device provisioning and configuration, app development, deployment, and ongoing maintenance.
 
-## Outcomes
+**Check Right In:**
+Started as a free project and turned into paid work. An attendance tracking app (Swift/SwiftUI) that operates across a network of iPads, centralizing all attendance data in one location. Originally backed by Airtable, I later migrated the system to Supabase and built a custom admin dashboard with Vite so the client could still manage everything themselves without developer involvement. Replaced paper tracking for 85+ person classes, eliminating human error and enabling historical data retention.
 
-Include adoption, throughput, and support improvements.
+Both apps follow the same principle: **build self-sustaining systems.** The client manages their own data through simple interfaces (Admin dashboard, EloView) without needing to call me.
+
+### Stack
+**Kiosk:** Kotlin, Jetpack Compose, Airtable, Elo 4304L hardware, EloView MDM
+**Check-In:** Swift, SwiftUI, Supabase, Vite (admin dashboard)
+**Hardware:** 2x Elo 4304L 43" Interactive Displays with Android backpacks
+
+### Status
+Both deployed and in active use. 1,000+ people have used the check-in system over 4+ years. Kiosks have been running continuously since deployment.

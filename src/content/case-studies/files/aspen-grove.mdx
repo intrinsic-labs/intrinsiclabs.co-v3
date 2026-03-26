@@ -1,10 +1,14 @@
-### The Problem
-Most modern AI interfaces are a glorified iMessage spinoff. In some ways, this makes sense - linear conversation is an easy and intuitive way to relate to and work with LLMs. But the fact is that LLMs are **probability spaces** - they do not decide on a “right” answer and spit it out. They generate probabilities for millions of possible next words, then sample from that distribution to piece together their output. This means that running the same prompt multiple times yeilds different results - sometimes, wildy different - and pretending LLMs work in a linear fashion majorly limits their potential.
+### Links
+[Source code on GitHub →](https://github.com/intrinsic-labs/aspen-grove)  
+[Loom tree examples on my blog site →](https://rocketbro.vercel.app/looms)
 
-This issue has driven the community to create *[Loom Interfaces](https://www.latentspaces.app/blog/the-probable-beauty-of-llms)* - AI tools that let you explore many branching possibilities without losing the ability to go back. Many existing looms are rather hacked together and take some dev knowledge to get running, and although frontier labs have finally started adding branching functionality into their own proprietary apps, I wanted to create a mobile app that puts branching exploration front and center for anyone who picks it up. The design and experience of an interface tend to strongly influence what the user imagines to be possible, so having tree exploration be a primary feature instead of something bolted on was important to me.
+### The Problem
+Most modern AI interfaces are glorified iMessage spinoffs. In some ways, this makes sense - linear conversation is an easy and intuitive way to relate to and work with LLMs. But the fact is that LLMs are **probability spaces** - they do not decide on a “right” answer and spit it out. They generate probabilities for millions of possible next words, then sample from that distribution to piece together their output. This means that running the same prompt multiple times yeilds different results - sometimes, wildy different - and pretending LLMs work in a linear fashion majorly limits their potential.
+
+This issue has driven the community to create [Loom Interfaces](https://www.latentspaces.app/blog/the-probable-beauty-of-llms) - AI tools focused on exploring branching paths. Many existing looms are kind of hacked together, take some dev knowledge to get running, and only run on desktop. I wanted to create a mobile loom that makes this functionality accessible to everyone.
 
 ### Architecture
-Aspen Grove is built on a **hypergraph-backed tree structure** where every conversation is a Loom Tree - nodes connected by directed hyperedges that support branching, annotation, and multi-source context assembly.  
+Aspen Grove's core data structure is the Loom Tree: a hypergraph-backed tree where nodes contain content (text, images, audio) and edges represent relationships between them. Every response you generate, every path you take, is preserved. You can branch, backtrack, compare alternatives, and build understanding through exploration.
 
 Another key feature is the **provenance system**. I haven’t seen any AI apps with a focus on proving that a model response actually comes from where the user thinks it does. This is tough to implement fully without provider collaboration/API response signing, but I have taken the steps I can to start building towards a proveable, secure future.
 
@@ -23,7 +27,7 @@ React Native (Expo), TypeScript, WatermelonDB (SQLite-backed, lazy loading, obse
 - Complete domain model and specification (50+ pages of architectural documentation)
 - Hypergraph data model supporting branching exploration, annotations, and cross-tree knowledge linking
 - Context assembly algorithm with multiple truncation strategies (middle-truncate, rolling window, stop-at-limit)
-- Custom tool system (look at [loom-aware model interactions](https://github.com/intrinsic-labs/aspen-grove/tree/main/docs/architecture/specs/loom-tools) in the docs, it’s pretty rad - *the model can navigate the loom tree*)
+- Custom tool system (look at [loom-aware model interactions](https://github.com/intrinsic-labs/aspen-grove/tree/main/docs/architecture/specs/loom-tools) in the docs, it’s pretty cool - the model can navigate the loom tree)
 - Provenance system with hash chains and RFC 3161 timestamp support
 - Multi-provider LLM abstraction layer with support for Anthropic, OpenAI, Openrouter, Hyperbolic, and more
 

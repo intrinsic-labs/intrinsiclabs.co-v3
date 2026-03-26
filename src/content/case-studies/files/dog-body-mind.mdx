@@ -15,13 +15,15 @@ The **mobile app** (React Native/Expo) includes a custom algorithm engine that c
 
 The **API layer** is 20 endpoints deployed as Supabase Edge Functions, covering onboarding, session composition/lifecycle, body condition check-ins, ruleset management, and an offline sync pipeline with idempotent event reconciliation.
 
+The **Admin dashboard** is a Vite app deployed on Vercel that allows the client to manage app content, view analytics, and adjust algorithm rulesets.
+
 **Key design decisions:**
 - **Content/metadata split.** Sanity is great at localized rich text editing and editorial workflow. Postgres is great at relational queries like "find all exercises for Beginner 2 targeting rear hips that don't require equipment." Trying to do both in one system would compromise both.
 - **Algorithm versioning.** Separating ruleset constants from logic means the client can adjust training volume thresholds without a code deploy. Each user session records which algorithm version and ruleset version produced it — important for the client's research credibility.
 - **Offline-first mobile.** Dog owners use this in gyms and outdoors. Exercise metadata syncs to a local database. Progress tracks locally and reconciles when online. Video can be downloaded for offline playback with configurable cache limits.
 
 ### Stack
-**Web:** `Next.js, Sanity CMS, Tailwind CSS, Vercel`  
+**Web:** `Next.js, Vite (admin dashboard), Sanity CMS, Tailwind CSS, Vercel`  
 **Mobile:** `React Native (Expo), TypeScript, expo-sqlite`  
 **Backend:** `Supabase (Postgres), Edge Functions (Deno/TypeScript), Mux, RevenueCat`  
 **Languages:** `English (US), English (UK), Spanish, French, German, Italian`

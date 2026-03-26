@@ -1,0 +1,31 @@
+### The Problem
+I work as a door-to-door sales rep for Google Fiber. Our team uses Salesforce Mobile to manage territories, track door interactions, and sync data back to the CRM. The app is slow, crashes frequently, doesn't work well offline (which is a problem when you're walking neighborhoods), and the UX makes simple tasks take far longer than they should. It's costing us sales.
+
+So I started building a replacement.
+
+### Architecture
+GFBR follows **strict clean architecture** with layer boundaries enforced by ESLint — not just documented, automated. Domain cannot import infrastructure. Interface cannot import infrastructure directly. Everything flows through typed ports and adapters.
+
+**Key design decisions:**
+- **Offline-first with outbox sync.** Reps lose connectivity constantly in neighborhoods. Every interaction is written to a local SQLite database first, then synced to Salesforce via an outbox pattern with retry/backoff and status transitions (pending → synced / failed). Sync is idempotent by external interaction ID.
+- **Salesforce as a data source, not a dependency.** The app treats Salesforce as an infrastructure detail behind adapter interfaces. If the backend changed, only the adapter layer would need to change.
+- **Geospatial data handling.** Sales territories come from Salesforce as GeoJSON polygons (sometimes segmented across multiple fields due to Salesforce character limits). The geometry parser normalizes both formats and renders territories and address pins on a map.
+- **OAuth with PKCE.** Authentication flows through Salesforce's Okta-federated OAuth with PKCE via expo-auth-session, with token refresh and secure session persistence.
+
+### Stack
+React Native (Expo), TypeScript, SQLite (expo-sqlite), Salesforce REST API, OAuth 2.0 + PKCE, Google Maps, Clean Architecture
+
+### What I Built
+- Salesforce OAuth sign-in/sign-out with session restore and token refresh
+- Shape (territory polygon) and pin (address) data adapters with GeoJSON geometry parsing
+- SQLite persistence layer for offline territory/pin caching and interaction outbox
+- Map interface rendering cached territory polygons and address pin markers
+- Interaction recording flow with local-first persistence and Salesforce sync
+- Auto-sync runner with retry/backoff, status transitions, and observability telemetry
+- Rep dashboard with interaction history (local-first, remote fallback)
+- Complete documentation site (Next.js + Nextra) with architecture docs, domain model, and Salesforce integration guides
+
+### Status
+Prototype. Core plumbing complete, UI in final development. Built for a 100-person national D2D sales team. Pitching for full-time development role to deploy team-wide.
+
+*Architecture details available on request.*

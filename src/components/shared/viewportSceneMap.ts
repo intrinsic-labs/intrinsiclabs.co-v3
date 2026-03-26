@@ -1,3 +1,5 @@
+import { homeProjects } from "@/content/home";
+
 export type ViewportSceneId =
   | "wireframe-tree"
   | "wireframe-dog-head"
@@ -11,11 +13,19 @@ export type ViewportSceneId =
  * This module is intentionally free of `"use client"` so it can be
  * imported from both server and client components.
  */
-const slugToScene: Record<string, ViewportSceneId | undefined> = {
-  "aspen-grove": "wireframe-tree",
-  "dog-body-mind": "wireframe-dog-head",
-  "church-ops": "wireframe-church",
-};
+const slugToScene: Record<string, ViewportSceneId | undefined> =
+  Object.fromEntries(
+    homeProjects
+      .filter(
+        (
+          p,
+        ): p is typeof p & {
+          caseStudySlug: string;
+          viewportScene: ViewportSceneId;
+        } => p.caseStudySlug != null && p.viewportScene != null,
+      )
+      .map((p) => [p.caseStudySlug, p.viewportScene]),
+  );
 
 export function getSceneForSlug(slug: string): ViewportSceneId | undefined {
   return slugToScene[slug];

@@ -3,11 +3,8 @@
 import Link from "next/link";
 import { useEffect, useMemo, useRef, useState } from "react";
 import { FiArrowLeft, FiArrowRight } from "react-icons/fi";
-import {
-  getCaseStudyHref,
-  isCaseStudySlug,
-} from "@/content/case-studies/registry";
-import type { HomeProject } from "@/content/home";
+
+import type { HomeProject } from "@/content/case-studies/types";
 import { FitText } from "@/components/FitText";
 import { ViewportScene } from "@/components/shared/ViewportScene";
 
@@ -114,18 +111,12 @@ function ProjectCard({
       </ul>
 
       <div className="mt-5">
-        {project.caseStudySlug && isCaseStudySlug(project.caseStudySlug) ? (
-          <Link
-            href={getCaseStudyHref(project.caseStudySlug)}
-            className="mono-label type-xs text-copper transition-colors hover:text-copper-deep"
-          >
-            VIEW CASE STUDY →
-          </Link>
-        ) : (
-          <span className="mono-label type-xs text-ink-dim">
-            CASE STUDY IN PROGRESS
-          </span>
-        )}
+        <Link
+          href={`/case-studies/${project.caseStudySlug}`}
+          className="mono-label type-xs text-copper transition-colors hover:text-copper-deep"
+        >
+          VIEW CASE STUDY →
+        </Link>
       </div>
     </>
   );
@@ -229,14 +220,14 @@ export function RadialProjectCarousel({
         </div>
 
         {/* Name + subtitle, stacked below scene */}
-        <div className="flex flex-col items-center text-center px-4 mt-4">
+        <div className="flex flex-col items-start mt-4 w-full">
           <FitText
             as="h3"
-            className="font-mono type-3xl uppercase type-tracking-wider text-cream type-leading-snug text-center w-full"
+            className="font-mono type-3xl uppercase type-tracking-wider text-cream type-leading-snug"
           >
             {activeProject.name}
           </FitText>
-          <p className="mt-1 type-sm text-blue-400 text-center">
+          <p className="mt-1 type-sm text-blue-400">
             {activeProject.subtitle}
           </p>
         </div>

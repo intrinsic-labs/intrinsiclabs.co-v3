@@ -1,12 +1,52 @@
 import type { MDXProps } from "mdx/types";
 import type { ReactElement } from "react";
+import type { ViewportSceneId } from "@/components/shared/sceneRegistry";
 
-import { homeProjects } from "@/content/home";
+/**
+ * Shared scene identifiers used by both the home carousel and case-study pages.
+ * Sourced from the centralized scene registry.
+ */
+export type { ViewportSceneId };
 
-/** Derived from the single source of truth in home.ts */
-export type CaseStudySlug = NonNullable<
-  (typeof homeProjects)[number]["caseStudySlug"]
->;
+/**
+ * Shared project status labels.
+ */
+export type HomeProjectStatus = "Live" | "In Progress";
+
+/**
+ * Canonical project shape used by the home carousel.
+ * Derived from case-study frontmatter records.
+ */
+export type HomeProject = {
+  id: string;
+  status: HomeProjectStatus;
+  name: string;
+  subtitle: string;
+  stack: string[];
+  summary: string;
+  caseStudySlug: string;
+  viewportScene?: ViewportSceneId;
+};
+
+export type CaseStudySlug = string;
+
+/**
+ * Frontmatter contract expected in each case-study MDX file.
+ * This is the source-of-truth for project metadata.
+ */
+export type CaseStudyFrontmatter = {
+  slug: CaseStudySlug;
+  id: string;
+  status: HomeProjectStatus;
+  name: string;
+  subtitle: string;
+  stack: string[];
+  summary: string;
+  description?: string;
+  viewportScene?: ViewportSceneId;
+  featuredOnHome?: boolean;
+  order?: number;
+};
 
 export type CaseStudyMeta = {
   slug: CaseStudySlug;
@@ -19,4 +59,5 @@ type MdxContentComponent = (props: MDXProps) => ReactElement;
 
 export type CaseStudyModule = {
   default: MdxContentComponent;
+  frontmatter?: Partial<CaseStudyFrontmatter>;
 };

@@ -1,24 +1,24 @@
 "use client";
 
+import type { ComponentType } from "react";
 import { WireframeTree } from "@/components/home/WireframeTree";
 import { WireframeDogHead } from "@/components/home/WireframeDogHead";
 import { WireframeChurch } from "@/components/home/WireframeChurch";
 import { WireframeWifi } from "@/components/home/WireframeWifi";
-import type { ViewportSceneId } from "@/content/home";
+import type { ViewportSceneId } from "@/components/shared/sceneRegistry";
 
-export type { ViewportSceneId };
+export type { ViewportSceneId } from "@/components/shared/sceneRegistry";
+
+const viewportSceneComponentById: Record<ViewportSceneId, ComponentType> = {
+  "wireframe-tree": WireframeTree,
+  "wireframe-dog-head": WireframeDogHead,
+  "wireframe-church": WireframeChurch,
+  "wireframe-wifi": WireframeWifi,
+};
 
 export function ViewportScene({ scene }: { scene?: ViewportSceneId }) {
-  switch (scene) {
-    case "wireframe-tree":
-      return <WireframeTree />;
-    case "wireframe-dog-head":
-      return <WireframeDogHead />;
-    case "wireframe-church":
-      return <WireframeChurch />;
-    case "wireframe-wifi":
-      return <WireframeWifi />;
-    default:
-      return null;
-  }
+  if (!scene) return null;
+
+  const SceneComponent = viewportSceneComponentById[scene];
+  return SceneComponent ? <SceneComponent /> : null;
 }

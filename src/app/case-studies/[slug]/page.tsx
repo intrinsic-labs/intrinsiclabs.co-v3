@@ -5,6 +5,7 @@ import { CaseStudyProse } from "@/components/case-study/CaseStudyProse";
 import {
   getAllCaseStudySlugs,
   getCaseStudyMeta,
+  getSceneForSlug,
   isCaseStudySlug,
   loadCaseStudyModule,
 } from "@/content/case-studies/registry";
@@ -44,6 +45,7 @@ export default async function CaseStudyPage({ params }: CaseStudyPageProps) {
   }
 
   const caseStudy = getCaseStudyMeta(slug);
+  const scene = getSceneForSlug(slug);
   const caseStudyModule = await loadCaseStudyModule(slug);
   const Content = caseStudyModule.default;
 
@@ -52,6 +54,7 @@ export default async function CaseStudyPage({ params }: CaseStudyPageProps) {
       projectName={caseStudy.projectName}
       subtitle={caseStudy.subtitle}
       slug={slug}
+      scene={scene}
     >
       <CaseStudyProse>
         <Content />

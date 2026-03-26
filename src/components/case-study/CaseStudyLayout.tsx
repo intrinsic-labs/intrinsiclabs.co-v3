@@ -1,12 +1,13 @@
 import Link from "next/link";
 import type { ReactNode } from "react";
 import { ViewportScene } from "@/components/shared/ViewportScene";
-import { getSceneForSlug } from "@/components/shared/viewportSceneMap";
+import type { ViewportSceneId } from "@/components/shared/sceneRegistry";
 
 type CaseStudyLayoutProps = {
   projectName: string;
   subtitle: string;
   slug: string;
+  scene?: ViewportSceneId;
   children: ReactNode;
 };
 
@@ -14,10 +15,9 @@ export function CaseStudyLayout({
   projectName,
   subtitle,
   slug,
+  scene,
   children,
 }: CaseStudyLayoutProps) {
-  const scene = getSceneForSlug(slug);
-
   return (
     <section className="section-spacing pb-[clamp(5rem,8vw,8rem)]">
       <div className="container-shell">
@@ -28,7 +28,9 @@ export function CaseStudyLayout({
           <h1 className="mt-3 font-mono type-4xl lg:type-5xl type-tracking-tight type-leading-snug py-2 lg:py-0 text-cream text-center font-bold">
             {projectName}
           </h1>
-          <p className="lg:mt-3 type-sm text-blue-400 text-center">{subtitle}</p>
+          <p className="lg:mt-3 type-sm text-blue-400 text-center">
+            {subtitle}
+          </p>
 
           <Link
             href={`/#project-${slug}`}

@@ -5,7 +5,7 @@ import { useEffect, useMemo, useRef, useState } from "react";
 import { FiArrowLeft, FiArrowRight } from "react-icons/fi";
 
 import type { HomeProject } from "@/content/case-studies/types";
-import { FitText } from "@/components/FitText";
+
 import { ViewportScene } from "@/components/shared/ViewportScene";
 
 type RadialProjectCarouselProps = {
@@ -221,15 +221,10 @@ export function RadialProjectCarousel({
 
         {/* Name + subtitle, stacked below scene */}
         <div className="flex flex-col items-start mt-4 w-full">
-          <FitText
-            as="h3"
-            className="font-mono type-3xl uppercase type-tracking-wider text-cream type-leading-snug"
-          >
+          <h2 className="font-mono font-bold type-2xl uppercase type-tracking-wider text-cream type-leading-snug">
             {activeProject.name}
-          </FitText>
-          <p className="mt-1 type-sm text-blue-400">
-            {activeProject.subtitle}
-          </p>
+          </h2>
+          <p className="mt-1 type-sm text-blue-400">{activeProject.subtitle}</p>
         </div>
 
         {/* Project details card */}

@@ -320,9 +320,9 @@ export function RadialProjectCarousel({
         </div>
 
         {/* RIGHT: viewport scene + focused project card */}
-        <aside className="relative">
-          <div className="absolute inset-8 grid grid-rows-[minmax(0,52%)_minmax(0,48%)] gap-4">
-            <div className="relative rounded-sm overflow-hidden">
+        <aside className="relative p-8">
+          <div className="grid gap-4">
+            <div className="relative rounded-sm overflow-hidden aspect-[4/3]">
               <ViewportScene scene={activeProject.viewportScene} />
             </div>
 

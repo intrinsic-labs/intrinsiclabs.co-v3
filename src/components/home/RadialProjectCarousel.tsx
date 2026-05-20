@@ -128,27 +128,31 @@ export function RadialProjectCarousel({
   projects,
   className,
 }: RadialProjectCarouselProps) {
-  const [activeIndex, setActiveIndex] = useState(0);
-  const wrapperRef = useRef<HTMLDivElement>(null);
-
-  // On mount, read URL hash (e.g. #project-aspen-grove) and jump to that project
-  useEffect(() => {
+  // Compute initial index from URL hash (e.g. #project-aspen-grove)
+  const getInitialIndex = () => {
+    if (typeof window === "undefined") return 0;
     const hash = window.location.hash.replace("#", "");
-    if (!hash.startsWith("project-")) return;
+    if (!hash.startsWith("project-")) return 0;
     const slug = hash.replace("project-", "");
     const idx = projects.findIndex(
       (p) => p.caseStudySlug === slug || p.id === slug,
     );
-    if (idx >= 0) {
-      setActiveIndex(idx);
-      // Give the browser a frame to paint, then scroll the carousel into view
-      requestAnimationFrame(() => {
-        wrapperRef.current?.scrollIntoView({
-          behavior: "smooth",
-        });
+    return idx >= 0 ? idx : 0;
+  };
+
+  const [activeIndex, setActiveIndex] = useState(getInitialIndex);
+  const wrapperRef = useRef<HTMLDivElement>(null);
+
+  // On mount, if we matched a hash, scroll the carousel into view
+  useEffect(() => {
+    const hash = window.location.hash.replace("#", "");
+    if (!hash.startsWith("project-")) return;
+    // Give the browser a frame to paint, then scroll the carousel into view
+    requestAnimationFrame(() => {
+      wrapperRef.current?.scrollIntoView({
+        behavior: "smooth",
       });
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+    });
   }, []);
 
   const projectCount = projects.length;
@@ -260,14 +264,14 @@ export function RadialProjectCarousel({
 
           <div className="relative h-full overflow-hidden">
             {/* Top & bottom vignette fade */}
-            <div className="pointer-events-none absolute inset-x-0 top-0 z-40 h-28 bg-gradient-to-b from-dark-grey to-transparent" />
-            <div className="pointer-events-none absolute inset-x-0 bottom-0 z-40 h-28 bg-gradient-to-t from-dark-grey to-transparent" />
+            <div className="pointer-events-none absolute inset-x-0 top-0 z-40 h-28 bg-linear-to-b from-dark-grey to-transparent" />
+            <div className="pointer-events-none absolute inset-x-0 bottom-0 z-40 h-28 bg-linear-to-t from-dark-grey to-transparent" />
 
             {/* Guide circles clipped by viewport */}
             <div className="pointer-events-none absolute inset-0">
-              <div className="absolute left-[-34rem] top-1/2 h-[68rem] w-[68rem] -translate-y-1/2 rounded-full border border-cream" />
-              <div className="absolute left-[-34rem] top-1/2 h-[67rem] w-[67rem] -translate-y-1/2 rounded-full border border-blue-400/25" />
-              <div className="absolute left-[-34rem] top-1/2 h-[38rem] w-[38rem] -translate-y-1/2 rounded-full border border-cream/25" />
+              <div className="absolute -left-136 top-1/2 h-272 w-272 -translate-y-1/2 rounded-full border border-cream" />
+              <div className="absolute -left-136 top-1/2 h-268 w-268 -translate-y-1/2 rounded-full border border-blue-400/25" />
+              <div className="absolute -left-136 top-1/2 h-152 w-152 -translate-y-1/2 rounded-full border border-cream/25" />
             </div>
 
             {/* Arc labels */}

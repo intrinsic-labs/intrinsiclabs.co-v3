@@ -24,7 +24,7 @@ export function SiteFooter() {
             </Link>
           ))}
           <Link
-            href="https://github.com/asherpope"
+            href="https://github.com/intrinsic-labs"
             target="_blank"
             rel="noopener noreferrer"
             className="mono-label type-xs text-cream-muted transition-colors hover:text-cream"

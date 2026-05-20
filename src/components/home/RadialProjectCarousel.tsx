@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { FiArrowLeft, FiArrowRight } from "react-icons/fi";
 
 import type { HomeProject } from "@/content/case-studies/types";
@@ -128,32 +128,44 @@ export function RadialProjectCarousel({
   projects,
   className,
 }: RadialProjectCarouselProps) {
-  // Compute initial index from URL hash (e.g. #project-aspen-grove)
-  const getInitialIndex = () => {
-    if (typeof window === "undefined") return 0;
+  // Parse index from URL hash (e.g. #project-aspen-grove)
+  const getIndexFromHash = useCallback(() => {
+    if (typeof window === "undefined") return -1;
     const hash = window.location.hash.replace("#", "");
-    if (!hash.startsWith("project-")) return 0;
+    if (!hash.startsWith("project-")) return -1;
     const slug = hash.replace("project-", "");
-    const idx = projects.findIndex(
-      (p) => p.caseStudySlug === slug || p.id === slug,
-    );
-    return idx >= 0 ? idx : 0;
-  };
+    return projects.findIndex((p) => p.caseStudySlug === slug || p.id === slug);
+  }, [projects]);
 
-  const [activeIndex, setActiveIndex] = useState(getInitialIndex);
+  const [activeIndex, setActiveIndex] = useState(() => {
+    const idx = getIndexFromHash();
+    return idx >= 0 ? idx : 0;
+  });
   const wrapperRef = useRef<HTMLDivElement>(null);
 
-  // On mount, if we matched a hash, scroll the carousel into view
+  // Listen for hash changes (e.g., navigating back from case study)
+  // This syncs React state with the external URL hash system
   useEffect(() => {
-    const hash = window.location.hash.replace("#", "");
-    if (!hash.startsWith("project-")) return;
-    // Give the browser a frame to paint, then scroll the carousel into view
-    requestAnimationFrame(() => {
-      wrapperRef.current?.scrollIntoView({
-        behavior: "smooth",
-      });
-    });
-  }, []);
+    const handleHashChange = () => {
+      const idx = getIndexFromHash();
+      if (idx >= 0) {
+        setActiveIndex(idx);
+        // Scroll the carousel into view
+        requestAnimationFrame(() => {
+          wrapperRef.current?.scrollIntoView({
+            behavior: "smooth",
+          });
+        });
+      }
+    };
+
+    // Also check on mount in case hash was present on initial navigation
+    // (handles soft navigation where component doesn't fully remount)
+    handleHashChange();
+
+    window.addEventListener("hashchange", handleHashChange);
+    return () => window.removeEventListener("hashchange", handleHashChange);
+  }, [getIndexFromHash]);
 
   const projectCount = projects.length;
   const activeProject = projects[activeIndex];
@@ -322,7 +334,7 @@ export function RadialProjectCarousel({
         {/* RIGHT: viewport scene + focused project card */}
         <aside className="relative p-8">
           <div className="grid gap-4">
-            <div className="relative rounded-sm overflow-hidden aspect-[4/3]">
+            <div className="relative rounded-sm overflow-hidden aspect-4/3">
               <ViewportScene scene={activeProject.viewportScene} />
             </div>
 

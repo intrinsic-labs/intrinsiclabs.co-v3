@@ -137,10 +137,8 @@ export function RadialProjectCarousel({
     return projects.findIndex((p) => p.caseStudySlug === slug || p.id === slug);
   }, [projects]);
 
-  const [activeIndex, setActiveIndex] = useState(() => {
-    const idx = getIndexFromHash();
-    return idx >= 0 ? idx : 0;
-  });
+  // Always start at 0 for SSR; useEffect below will sync from hash on client
+  const [activeIndex, setActiveIndex] = useState(0);
   const wrapperRef = useRef<HTMLDivElement>(null);
 
   // Listen for hash changes (e.g., navigating back from case study)

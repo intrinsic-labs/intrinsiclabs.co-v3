@@ -11,7 +11,7 @@ export const metadata: Metadata = {
 
 export default function AboutPage() {
   return (
-    <AboutLayout title="Asher Pope" subtitle="Developer · Designer · Builder">
+    <AboutLayout title="Asher Pope" subtitle="Systems Design & Full Stack Architecture">
       <CaseStudyProse>
         <Content />
       </CaseStudyProse>
